@@ -1,0 +1,31 @@
+{
+  "name": "electron-photo-organizer",
+  "version": "0.1.0",
+  "description": "Personal photo organizer based on Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "postinstall": "install-app-deps"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "Electron",
+    "Sqlite3",
+    "database",
+    "manager"
+  ],
+  "author": "Petru Dimitriu",
+  "license": "Public Domain",
+  "devDependencies": {
+    "electron-builder": "^17.0.1",
+    "electron-prebuilt": "^0.35.0"
+  },
+  "dependencies": {
+    "electron-reload": "^1.1.0",
+    "jquery": "~2.2.0",
+    "jquery-ui": "~1.10.5",
+    "sqlite3": "^3.1.8"
+  }
+}
