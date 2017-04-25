@@ -4,6 +4,7 @@ remote = require('remote');
 dialog = remote.require('dialog');
 require('jquery-ui');
 window.$ = window.jQuery = require('jquery');
+photosPerPage = 30;
 
 
 function displayAlbums()
@@ -25,7 +26,7 @@ function displayCurrentPhotoWindow()
 {
 	var numPhotos = -1;
 	contents = "";
-	for (var i = currentPhotoWindowFirstIndex; i < currentPhotoWindowFirstIndex + 30  && i < currentPhotoList.length; i++) {
+	for (var i = currentPhotoWindowFirstIndex; i < currentPhotoWindowFirstIndex + photosPerPage  && i < currentPhotoList.length; i++) {
 		numPhotos++;
 		if ((numPhotos % 5) === 0) {
 			contents += "<tr>";
@@ -95,8 +96,8 @@ function nextPhoto()
 {
 	if (photoIndex < currentPhotoList.length - 1)
 		photoIndex ++;
-	if (photoIndex > currentPhotoWindowFirstIndex + 30) {
-		currentPhotoWindowFirstIndex += 30 + 1;
+	if (photoIndex > currentPhotoWindowFirstIndex + photosPerPage) {
+		currentPhotoWindowFirstIndex += photosPerPage + 1;
 		displayCurrentPhotoWindow();
 	}
 	updatePhotoDisplay();
@@ -107,7 +108,7 @@ function previousPhoto()
 	if (photoIndex > 0 )
 		photoIndex --;
 	if (photoIndex >= 0) {
-			currentPhotoWindowFirstIndex -= 30 + 1;
+			currentPhotoWindowFirstIndex -= photosPerPage + 1;
 			if (currentPhotoWindowFirstIndex < 0)
 				currentPhotoWindowFirstIndex = 0;
 			displayCurrentPhotoWindow();
