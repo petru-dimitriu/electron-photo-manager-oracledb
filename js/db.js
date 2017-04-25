@@ -4,7 +4,7 @@ remote = require('remote');
 dialog = remote.require('dialog');
 require('jquery-ui');
 window.$ = window.jQuery = require('jquery');
-photosPerPage = 30;
+photosPerPage = 20;
 
 
 function displayAlbums()
@@ -54,6 +54,7 @@ function displayCurrentPhotoWindow()
 function displayPhotos(albumId, albumTitle)
 {
 	$('#title').html(albumTitle);
+	$('#albumViewerCommands').css('display','block');
 	var query = "SELECT * FROM photos WHERE album = " + albumId;
 	contents = "<table>";
 	db.all(query, function(err, data) {
@@ -114,6 +115,21 @@ function previousPhoto()
 			displayCurrentPhotoWindow();
 		}
 	updatePhotoDisplay();
+}
+
+function nextPhotos()
+{
+	if (currentPhotoWindowFirstIndex < currentPhotoList.length - photosPerPage - 1)
+		currentPhotoWindowFirstIndex += photosPerPage;
+	displayCurrentPhotoWindow();
+}
+
+function prevPhotos()
+{
+		currentPhotoWindowFirstIndex -= photosPerPage;
+		if (currentPhotoWindowFirstIndex < 0)
+			currentPhotoWindowFirstIndex = 0;
+	displayCurrentPhotoWindow();
 }
 
 function initDB()
