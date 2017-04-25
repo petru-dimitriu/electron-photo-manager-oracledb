@@ -24,6 +24,7 @@ function displayAlbums()
 function displayCurrentPhotoWindow()
 {
 	var numPhotos = -1;
+	contents = "";
 	for (var i = currentPhotoWindowFirstIndex; i < currentPhotoWindowFirstIndex + 30  && i < currentPhotoList.length; i++) {
 		numPhotos++;
 		if ((numPhotos % 5) === 0) {
@@ -52,9 +53,8 @@ function displayCurrentPhotoWindow()
 function displayPhotos(albumId, albumTitle)
 {
 	$('#title').html(albumTitle);
-	var query = "SELECT * FROM photos WHERE album = " + albumId + " LIMIT 30";
+	var query = "SELECT * FROM photos WHERE album = " + albumId;
 	contents = "<table>";
-	numPhotos = -1;
 	db.all(query, function(err, data) {
 		currentPhotoList = data;
 		currentPhotoIndex = 0;
@@ -93,13 +93,25 @@ function hidePhoto()
 
 function nextPhoto()
 {
-	photoIndex ++;
+	if (photoIndex < currentPhotoList.length - 1)
+		photoIndex ++;
+	if (photoIndex > currentPhotoWindowFirstIndex + 30) {
+		currentPhotoWindowFirstIndex += 30 + 1;
+		displayCurrentPhotoWindow();
+	}
 	updatePhotoDisplay();
 }
 
 function previousPhoto()
 {
-	photoIndex --;
+	if (photoIndex > 0 )
+		photoIndex --;
+	if (photoIndex >= 0) {
+			currentPhotoWindowFirstIndex -= 30 + 1;
+			if (currentPhotoWindowFirstIndex < 0)
+				currentPhotoWindowFirstIndex = 0;
+			displayCurrentPhotoWindow();
+		}
 	updatePhotoDisplay();
 }
 
