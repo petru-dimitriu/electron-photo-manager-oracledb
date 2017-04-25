@@ -12,16 +12,18 @@ function displayAlbums()
 	contents = "<ul>";
 	db.serialize(function(){
 		db.each(query,function(err,row){
-			contents += "<li><a href='javascript:displayPhotos(" + row['id'] + ")'>" + row['title'] + "</a></li>";
+			contents += "<li><a href='javascript:displayPhotos(" + row['id'] + ", \"" + row['title'] + "\"" + ")'>" + row['title'] + "</a></li>";
 		}, function(err){
 			contents += "</ul>";
 			$("#conts").html(contents);
 		});
 	});
+
 }
 
-function displayPhotos(albumId)
+function displayPhotos(albumId, albumTitle)
 {
+	$('#title').html(albumTitle);
 	var query = "SELECT * FROM photos WHERE album = " + albumId + " LIMIT 30";
 	contents = "<table>";
 	numPhotos = -1;
@@ -32,7 +34,12 @@ function displayPhotos(albumId)
 				contents += "<tr>";
 			}
 
-			contents += "<td><img src='" + row['path'] + "' style='width:19vw; max-height:30vh'></img></td>";
+			shortTitle = row['path'].substr(row['path'].lastIndexOf("/")+1);
+
+			contents += "<td>" +
+				"<img src='" + row['path'] + "' style='width:19vw; max-height:30vh'></img>" +
+				"<div id='photoDesc" + numPhotos + "' class = \"photoDesc\"> " + shortTitle + " </div>" +
+				"</td>";
 
 			if (((numPhotos+1) % 5) === 0) {
 				contents += "</tr>";

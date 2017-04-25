@@ -14,6 +14,13 @@ html
 
 }
 
+h1
+{
+  background-color: black;
+  font-size: 120%;
+  margin:0;
+}
+
 body, #menu-container
 {
 	margin: 0 auto;
@@ -24,7 +31,7 @@ body, #menu-container
 
 a
 {
-	color: #00497D;
+	color: yellow;
 }
 
 a:hover
@@ -194,7 +201,41 @@ p
 
 #bottombar
 {
-	position: absolute;
+	position: fixed;
 	bottom: 0px;
 	width: 100%;
+}
+
+#commands
+{
+  position: absolute;
+  right: 1px;
+  z-index: 5;
+  opacity: 0.1;
+  background-color: black;
+}
+
+#commands:hover
+{
+  opacity: 0.9;
+}
+
+img
+{
+}
+
+.photoDesc
+{
+  position: absolute;
+  background-color: black;
+  overflow:hidden;
+  z-index: 50;
+  padding-top:0;
+  height:0;
+}
+
+img:hover + .photoDesc
+{
+  height: auto;
+  margin-top: -20px;
 }
