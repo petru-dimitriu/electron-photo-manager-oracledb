@@ -21,37 +21,86 @@ function displayAlbums()
 
 }
 
+function displayCurrentPhotoWindow()
+{
+	var numPhotos = -1;
+	for (var i = currentPhotoWindowFirstIndex; i < currentPhotoWindowFirstIndex + 30  && i < currentPhotoList.length; i++) {
+		numPhotos++;
+		if ((numPhotos % 5) === 0) {
+			contents += "<tr>";
+		}
+
+		shortTitle = currentPhotoList[i]['path'].substr(currentPhotoList[i]['path'].lastIndexOf("/")+1);
+
+		contents += "<td>" +
+			"<a href='javascript:displayPhoto(" + i + ")'>" +
+			"<img src='" + currentPhotoList[i]['path'] + "' style='width:19vw; max-height:30vh'></img>" +
+			"<div id='photoDesc" + numPhotos + "' class = \"photoDesc\"> " + shortTitle + " </div>" +
+			"</a>" +
+			"</td>";
+
+		if (((numPhotos+1) % 5) === 0) {
+			contents += "</tr>";
+		}
+	}
+	if ((numPhotos+1)%5 != 0)
+		contents += "</tr>";
+	contents += "</table>";
+	$("#conts").html(contents);
+}
+
 function displayPhotos(albumId, albumTitle)
 {
 	$('#title').html(albumTitle);
 	var query = "SELECT * FROM photos WHERE album = " + albumId + " LIMIT 30";
 	contents = "<table>";
 	numPhotos = -1;
-	db.serialize(function(){
-		db.each(query,function(err,row){
-			numPhotos++;
-			if ((numPhotos % 5) === 0) {
-				contents += "<tr>";
-			}
-
-			shortTitle = row['path'].substr(row['path'].lastIndexOf("/")+1);
-
-			contents += "<td>" +
-				"<img src='" + row['path'] + "' style='width:19vw; max-height:30vh'></img>" +
-				"<div id='photoDesc" + numPhotos + "' class = \"photoDesc\"> " + shortTitle + " </div>" +
-				"</td>";
-
-			if (((numPhotos+1) % 5) === 0) {
-				contents += "</tr>";
-			}
-
-		},function(err){
-			if ((numPhotos+1)%5 != 0)
-				contents += "</tr>";
-			contents += "</table>";
-			$("#conts").html(contents);
-		});
+	db.all(query, function(err, data) {
+		currentPhotoList = data;
+		currentPhotoIndex = 0;
+		currentPhotoWindowFirstIndex = 0;
+		displayCurrentPhotoWindow();
 	});
+}
+
+function displayPhoto(index)
+{
+	$("#mainViewer").hide();
+	$("#photoViewer").show();
+	$("#photoViewer").css('opacity',1);
+	$("#photoViewer").css('z-index',30);
+	$("#photoCanvas").css('opacity',1);
+
+	photoIndex = index;
+
+	updatePhotoDisplay();
+}
+
+function updatePhotoDisplay()
+{
+	$("#photoCanvas").css('background','black url(\'' + currentPhotoList[photoIndex]['path'] + '\') no-repeat fixed center');
+	$("#photoCanvas").css('background-size','contain	');
+}
+
+function hidePhoto()
+{
+	$("#mainViewer").show();
+	$("#photoViewer").hide();
+	$("#photoViewer").css('opacity',0);
+	$("#photoViewer").css('z-index',-1);
+	$("#photoCanvas").css('opacity',0);
+}
+
+function nextPhoto()
+{
+	photoIndex ++;
+	updatePhotoDisplay();
+}
+
+function previousPhoto()
+{
+	photoIndex --;
+	updatePhotoDisplay();
 }
 
 function initDB()

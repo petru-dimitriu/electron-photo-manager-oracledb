@@ -6,17 +6,29 @@
 	<script src="js/simpleticker.js" type="text/javascript"></script>
   <script src="js/interface.js" type="text/javascript"></script>
      <script src="js/db.js" type="text/javascript"></script>
-    <title>SQLite Manager</title>
+    <title>SQLite Photo Organizer</title>
   </head>
   <body>
+    <div id = "photoViewer">
+      <div id = "photoViewerCommands">
+       <a href="javascript:hidePhoto()">Return</a>
+       <a href="javascript:previousPhoto()">< Prev</a>
+       <a href="javascript:nextPhoto()">Next > </a>
+     </div>
+      <div id = "photoCanvas"></div>
+    </div>
+
+    <div id ="mainViewer">
      <h1 id="title"> Electron Photo Organizer</h1>
      <div id = "commands">
      <a href="javascript:initDB()">Initialise DB</a> <br>
      <a href="javascript:parseRootDirectoryDialog()">Parse dir</a> <br>
      <a href="javascript:displayAlbums()">Albums</a> <br>
      <a href="javascript:displayPhotos(2)">Photos</a>
-   </div>
+     </div>
      <div id="conts"></div>
+    </div>
+
      <div id="bottombar">Hello.</div>
   </body>
 </html>
