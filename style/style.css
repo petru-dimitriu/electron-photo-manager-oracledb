@@ -277,3 +277,15 @@ img:hover + .photoDesc
 {
   display: fixed;
 }
+
+#descriptionBox
+{
+  background-color: black;
+  position:absolute;
+  bottom:1px;
+}
+
+#photoTitle
+{
+  font-size: 150%;
+}

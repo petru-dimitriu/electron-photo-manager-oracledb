@@ -32,7 +32,7 @@ function displayCurrentPhotoWindow()
 			contents += "<tr>";
 		}
 
-		shortTitle = currentPhotoList[i]['path'].substr(currentPhotoList[i]['path'].lastIndexOf("/")+1);
+		var shortTitle = currentPhotoList[i]['path'].substr(currentPhotoList[i]['path'].lastIndexOf("/")+1);
 
 		contents += "<td>" +
 			"<a href='javascript:displayPhoto(" + i + ")'>" +
@@ -82,6 +82,8 @@ function updatePhotoDisplay()
 {
 	$("#photoCanvas").css('background','black url(\'' + currentPhotoList[photoIndex]['path'] + '\') no-repeat fixed center');
 	$("#photoCanvas").css('background-size','contain	');
+	var shortTitle = currentPhotoList[photoIndex]['path'].substr(currentPhotoList[photoIndex]['path'].lastIndexOf("/")+1);
+	$("#photoTitle").html(shortTitle);
 }
 
 function hidePhoto()
