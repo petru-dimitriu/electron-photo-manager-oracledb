@@ -8,7 +8,6 @@ photosPerPage = 20;
 $(window).mousemove(mouseMoveHandler);
 currentMode = "";
 
-
 function displayAlbums()
 {
 	var query = "SELECT * FROM albums";
@@ -154,3 +153,22 @@ window.onload = function init()
 		db.serialize();
 	}
 };
+
+function updatePhotoDescription()
+{
+	var currentPhotoId = currentPhotoList[photoIndex]['id'];
+	var newPhotoDescription = $("#photoDesc").html();
+	db.run("UPDATE photos SET description = ?  WHERE id = ?", [newPhotoDescription, currentPhotoId],
+		function(error) {
+			if (error !== null)
+			{
+				$("#photoDesc").css("backgroundColor","red");
+			}
+			else
+			{
+				$("#photoDesc").css("backgroundColor","green");
+				currentPhotoList[photoIndex]['description'] = newPhotoDescription;
+			}
+			$("#photoDesc").animate({backgroundColor:"black"},500);
+		})
+}

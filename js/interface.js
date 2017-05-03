@@ -1,3 +1,30 @@
+function prepareUI()
+{
+	$("#photoDesc").click( function()
+		{
+			$(this).hide();
+			$("#photoDescEdit").val($("#photoDesc").html());
+			$("#photoDescEdit").show().select();
+		}
+	);
+
+	$("#photoDescEdit").focusout( function()
+	{
+		$(this).hide();
+		$("#photoDesc").show();
+		$("#photoDesc").html($("#photoDescEdit").val());
+
+		updatePhotoDescription();
+	});
+
+	$("#photoDescEdit").keypress(function(e)
+	{
+		if (e.which == 13)
+			$(this).focusout();
+	}
+);
+}
+
 function notify(text)
 {
 	$("#bottombar").html(text);
@@ -75,6 +102,7 @@ function turnOffMode(mode)
 		$("#photoViewer").css('opacity',0);
 		$("#photoViewer").css('z-index',-1);
 		$("#photoCanvas").css('opacity',0);
+		$(window).off("keydown");
 	}
 }
 
@@ -92,6 +120,13 @@ function turnOnMode(mode)
 		$("#photoViewer").css('opacity',1);
 		$("#photoViewer").css('z-index',30);
 		$("#photoCanvas").css('opacity',1);
+		$(window).keydown(function (e)
+			{
+				if ((e.keyCode || e.which) == 37) // left
+					previousPhoto();
+				else if ((e.keyCode || e.which) == 39) // right
+					nextPhoto();
+			});
 	}
 }
 
