@@ -70,16 +70,43 @@ function displayPhotos(albumId, albumTitle)
 
 function displayPhoto(index)
 {
-	currentMode = "photo";
-	$("#mainViewer").hide();
-	$("#photoViewer").show();
-	$("#photoViewer").css('opacity',1);
-	$("#photoViewer").css('z-index',30);
-	$("#photoCanvas").css('opacity',1);
-
+	turnOffMode(currentMode);
+	turnOnMode("photo");
 	photoIndex = index;
-
 	updatePhotoDisplay();
+}
+
+function turnOffMode(mode)
+{
+	if (mode == 'album')
+	{
+		$("#mainViewer").hide();
+		$("#commands").hide();
+	}
+	else if (mode == 'photo')
+	{
+		$("#photoViewer").hide();
+		$("#photoViewer").css('opacity',0);
+		$("#photoViewer").css('z-index',-1);
+		$("#photoCanvas").css('opacity',0);
+	}
+}
+
+function turnOnMode(mode)
+{
+	currentMode = mode;
+	if (mode == 'album')
+	{
+		$("#mainViewer").show();
+		$("#commands").show();
+	}
+	else if (mode == 'photo')
+	{
+		$("#photoViewer").show();
+		$("#photoViewer").css('opacity',1);
+		$("#photoViewer").css('z-index',30);
+		$("#photoCanvas").css('opacity',1);
+	}
 }
 
 function updatePhotoDisplay()
@@ -88,16 +115,18 @@ function updatePhotoDisplay()
 	$("#photoCanvas").css('background-size','contain	');
 	var shortTitle = currentPhotoList[photoIndex]['path'].substr(currentPhotoList[photoIndex]['path'].lastIndexOf("/")+1);
 	$("#photoTitle").html(shortTitle);
+	var description = currentPhotoList[photoIndex]['description'];
+	console.log(currentPhotoList[photoIndex]);
+	if (description === null)
+		description = "<i>No description for this photo</i>";
+	$("#photoDesc").html(description);
 }
 
 function hidePhoto()
 {
-	currentMode = "album";
-	$("#mainViewer").show();
-	$("#photoViewer").hide();
-	$("#photoViewer").css('opacity',0);
-	$("#photoViewer").css('z-index',-1);
-	$("#photoCanvas").css('opacity',0);
+	turnOffMode(currentMode);
+	turnOnMode("album");
+
 }
 
 function nextPhoto()
