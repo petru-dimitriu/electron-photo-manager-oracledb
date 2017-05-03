@@ -5,6 +5,8 @@ dialog = remote.require('dialog');
 require('jquery-ui');
 window.$ = window.jQuery = require('jquery');
 photosPerPage = 20;
+$(window).mousemove(mouseMoveHandler);
+currentMode = "";
 
 
 function displayAlbums()
@@ -53,6 +55,7 @@ function displayCurrentPhotoWindow()
 
 function displayPhotos(albumId, albumTitle)
 {
+	currentMode = "album";
 	$('#title').html(albumTitle);
 	$('#albumViewerCommands').css('display','block');
 	var query = "SELECT * FROM photos WHERE album = " + albumId;
@@ -67,6 +70,7 @@ function displayPhotos(albumId, albumTitle)
 
 function displayPhoto(index)
 {
+	currentMode = "photo";
 	$("#mainViewer").hide();
 	$("#photoViewer").show();
 	$("#photoViewer").css('opacity',1);
@@ -88,6 +92,7 @@ function updatePhotoDisplay()
 
 function hidePhoto()
 {
+	currentMode = "album";
 	$("#mainViewer").show();
 	$("#photoViewer").hide();
 	$("#photoViewer").css('opacity',0);
