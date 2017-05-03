@@ -4,7 +4,7 @@ function prepareUI()
 		{
 			$(this).hide();
 			$("#photoDescEdit").val($("#photoDesc").html());
-			$("#photoDescEdit").show().select();
+			$("#photoDescEdit").show().focus();
 		}
 	);
 
@@ -41,6 +41,8 @@ function displayCurrentPhotoWindow()
 	var numPhotos = -1;
 	contents = "";
 	for (var i = currentPhotoWindowFirstIndex; i < currentPhotoWindowFirstIndex + photosPerPage  && i < currentPhotoList.length; i++) {
+		if (currentPhotoList[i] == null)
+			continue;
 		numPhotos++;
 		if ((numPhotos % 5) === 0) {
 			contents += "<tr>";
@@ -137,10 +139,18 @@ function updatePhotoDisplay()
 	var shortTitle = currentPhotoList[photoIndex]['path'].substr(currentPhotoList[photoIndex]['path'].lastIndexOf("/")+1);
 	$("#photoTitle").html(shortTitle);
 	var description = currentPhotoList[photoIndex]['description'];
+	var rating = currentPhotoList[photoIndex]['rating'];
 	console.log(currentPhotoList[photoIndex]);
 	if (description === null)
 		description = "<i>No description for this photo</i>";
 	$("#photoDesc").html(description);
+	for (var i = 1; i <= 5; i ++)
+	{
+		if (i == rating)
+			$("#rate"+i).css('backgroundColor','yellow');
+		else
+			$("#rate"+i).css('backgroundColor','black');
+	}
 }
 
 function hidePhoto()

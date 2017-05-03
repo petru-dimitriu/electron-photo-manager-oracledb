@@ -15,6 +15,9 @@
        <a href="javascript:hidePhoto()">Return</a>
        <a href="javascript:previousPhoto()">< Prev</a>
        <a href="javascript:nextPhoto()">Next > </a>
+       <div class = "rightCommands">
+         <a href="javascript:delPhoto()"> Del </a>
+       </div>
      </div>
       <div id = "photoCanvas"></div>
 
@@ -22,6 +25,16 @@
         <div id = "photoTitle"></div>
         <div id = "photoDesc"></div>
         <input type="text" id="photoDescEdit" style="display:none"></input>
+      </div>
+      <div id = "descriptionBoxRight" class = "right">
+        <div>
+          Rating:
+          <a id="rate1" href="javascript:setCurrentPhotoRating(1)"> 1 </a>
+          <a id="rate2" href="javascript:setCurrentPhotoRating(2)"> 2 </a>
+          <a id="rate3" href="javascript:setCurrentPhotoRating(3)"> 3 </a>
+          <a id="rate4" href="javascript:setCurrentPhotoRating(4)"> 4 </a>
+          <a id="rate5" href="javascript:setCurrentPhotoRating(5)"> 5 </a>
+        </div>
       </div>
     </div>
 

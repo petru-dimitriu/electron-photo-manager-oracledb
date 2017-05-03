@@ -154,6 +154,48 @@ window.onload = function init()
 	}
 };
 
+function delPhoto()
+{
+	var currentPhotoId = currentPhotoList[photoIndex]['id'];
+	db.run("DELETE FROM photos WHERE id = ? ", [currentPhotoId], function(error)
+	{
+		if (error === null)
+		{
+			currentPhotoList.splice(photoIndex,1);
+			$("#photoViewer").animate({opacity:0},500, function(){
+				turnOffMode('photo');
+				turnOnMode('album');
+				displayCurrentPhotoWindow();
+			});
+
+		}
+	});
+}
+
+function setCurrentPhotoRating(rating)
+{
+	var currentPhotoId = currentPhotoList[photoIndex]['id'];
+	var oldRating = currentPhotoList[photoIndex]['rating'];
+	db.run("UPDATE photos SET rating = ? WHERE id = ?",[rating, currentPhotoId],
+		function(error)
+		{
+			if (error === null)
+			{
+				$("#rate"+rating).css('backgroundColor','green');
+				if (oldRating !== null)
+				{
+					$("#rate"+oldRating).animate({backgroundColor : 'black'});
+				}
+				$("#rate"+rating).animate({backgroundColor : 'yellow'});
+				currentPhotoList[photoIndex]['rating'] = rating;
+			}
+			else
+			{
+				$("#rate"+rating).css('backgroundColor','red');
+			}
+		});
+}
+
 function updatePhotoDescription()
 {
 	var currentPhotoId = currentPhotoList[photoIndex]['id'];
@@ -167,6 +209,7 @@ function updatePhotoDescription()
 			else
 			{
 				$("#photoDesc").css("backgroundColor","green");
+
 				currentPhotoList[photoIndex]['description'] = newPhotoDescription;
 			}
 			$("#photoDesc").animate({backgroundColor:"black"},500);

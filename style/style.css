@@ -261,9 +261,15 @@ img:hover + .photoDesc
   background-color:transparent;
 }
 
+#photoViewer a:hover
+{
+  background-color: black;
+}
+
 #photoViewerCommands
 {
   position: absolute;
+  width:100%;
 }
 
 #albumViewerCommands
@@ -278,14 +284,24 @@ img:hover + .photoDesc
   display: fixed;
 }
 
-#descriptionBox
+#descriptionBox, #descriptionBoxRight
 {
   background-color: black;
   position:absolute;
   bottom:1px;
 }
 
+#descriptionBoxRight
+{
+  right: -1px;
+}
+
 #photoTitle
 {
   font-size: 150%;
+}
+
+.rightCommands
+{
+  float: right;
 }
