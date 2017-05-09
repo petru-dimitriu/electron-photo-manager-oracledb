@@ -12,9 +12,11 @@ function prepareUI()
 	{
 		$(this).hide();
 		$("#photoDesc").show();
-		$("#photoDesc").html($("#photoDescEdit").val());
-
-		updatePhotoDescription();
+		if ($("#photoDescEdit").val() != "")
+		{
+			$("#photoDesc").html($("#photoDescEdit").val());
+			updatePhotoDescription();
+		}
 	});
 
 	$("#photoDescEdit").keypress(function(e)
