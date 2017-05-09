@@ -3,8 +3,8 @@ function prepareUI()
 	$("#photoDesc").click( function()
 		{
 			$(this).hide();
-			$("#photoDescEdit").val($("#photoDesc").html());
-			$("#photoDescEdit").show().focus();
+			$("#photoDescEdit").show();
+			$("#photoDescEdit").focus();
 		}
 	);
 
@@ -45,14 +45,14 @@ function displayCurrentPhotoWindow()
 			continue;
 		numPhotos++;
 		if ((numPhotos % 5) === 0) {
-			contents += "<tr>";
+			contents += "<tr class='imgrow'>";
 		}
 
 		var shortTitle = currentPhotoList[i]['path'].substr(currentPhotoList[i]['path'].lastIndexOf("/")+1);
 
-		contents += "<td>" +
+		contents +=
+		  "<td style='background-image: url("  + currentPhotoList[i]['path'] + ")' onclick='javascript:displayPhoto(" + i + ")'>" +
 			"<a href='javascript:displayPhoto(" + i + ")'>" +
-			"<img src='" + currentPhotoList[i]['path'] + "' style='width:19vw; max-height:30vh'></img>" +
 			"<div id='photoDesc" + numPhotos + "' class = \"photoDesc\"> " + shortTitle + " </div>" +
 			"</a>" +
 			"</td>";
@@ -140,10 +140,18 @@ function updatePhotoDisplay()
 	$("#photoTitle").html(shortTitle);
 	var description = currentPhotoList[photoIndex]['description'];
 	var rating = currentPhotoList[photoIndex]['rating'];
-	console.log(currentPhotoList[photoIndex]);
+
 	if (description === null)
+	{
 		description = "<i>No description for this photo</i>";
+		$("#photoDescEdit").val("");
+	}
+	else
+	{
+		$("#photoDescEdit").val(description);
+	}
 	$("#photoDesc").html(description);
+
 	for (var i = 1; i <= 5; i ++)
 	{
 		if (i == rating)

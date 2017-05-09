@@ -234,10 +234,10 @@ img
   height:0;
 }
 
-img:hover + .photoDesc
+td:hover .photoDesc
 {
   height: auto;
-  margin-top: -20px;
+  margin-top: 16vh;
 }
 
 #photoCanvas
@@ -304,4 +304,14 @@ img:hover + .photoDesc
 .rightCommands
 {
   float: right;
+}
+
+.imgrow td
+{
+  background-size: cover;
+  background-repeat:no-repeat;
+  background-position: center;
+  width:19vw;
+  height:19vh;
+  max-width: 10%;
 }
