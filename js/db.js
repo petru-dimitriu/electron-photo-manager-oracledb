@@ -25,8 +25,12 @@ function displayAlbums()
 
 function initDB()
 {
+	db.serialize();
 	db.run(`DROP TABLE photos`);
 	db.run(`DROP TABLE albums`);
+	db.run(`DROP TABLE locations`);
+	db.run(`DROP TABLE IF EXISTS people`);
+	db.run(`DROP TABLE peopleInPhotos`);
 
 	lastQuerySuccessful = true;
 	db.run(`CREATE TABLE photos(
@@ -53,6 +57,26 @@ function initDB()
 		 notify("Tables NOT created successfully!");
 	 	 return;
 	}
+
+	db.run(`CREATE TABLE locations (
+		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		name TEXT NULL,
+		latitude REAL,
+	  longitude REAL)`);
+
+	db.run(`CREATE TABLE people (
+		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		name TEXT NULL)`
+		);
+
+	db.run('INSERT INTO people (name) VALUES (\'Petru\'), (\'Robert\')' );
+
+	db.run(`CREATE TABLE peopleInPhotos (
+		person_id INTEGER,
+		photo_id INTEGER,
+		FOREIGN KEY(person_id) REFERENCES people(id),
+		FOREIGN KEY(photo_id) REFERENCES photos(id))`
+		);
 
 	notify("Tables created successfully!");
 }

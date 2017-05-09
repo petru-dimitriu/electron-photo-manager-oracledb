@@ -108,6 +108,10 @@ function turnOffMode(mode)
 		$("#photoCanvas").css('opacity',0);
 		$(window).off("keydown");
 	}
+	else if (mode == 'people')
+	{
+		$("#conts").hide();
+	}
 }
 
 function turnOnMode(mode)
@@ -131,6 +135,11 @@ function turnOnMode(mode)
 				else if ((e.keyCode || e.which) == 39) // right
 					nextPhoto();
 			});
+	}
+	else if (mode == 'people')
+	{
+		$("#conts").show();
+		setTitle("People");
 	}
 }
 
@@ -207,4 +216,33 @@ function prevPhotos()
 		if (currentPhotoWindowFirstIndex < 0)
 			currentPhotoWindowFirstIndex = 0;
 	displayCurrentPhotoWindow();
+}
+
+function displayPeople()
+{
+	turnOffMode(currentMode);
+	turnOnMode("people");
+	getPeopleList(writePeopleList);
+}
+
+function writePeopleList(rows)
+{
+	var conts = "<ul>";
+	for (var i = 0; i < rows.length; i ++)
+	{
+		conts += "<li>" + rows[i]['name']+ "</li>";
+	}
+	conts += "</ul>";
+	$("#conts").html(conts);
+}
+
+function getPeopleList(callback)
+{
+	var query = "SELECT * FROM people";
+	db.serialize(function(){
+		db.all(query, function(err, rows){
+				console.log(rows);
+			callback(rows);
+		});
+	});
 }
