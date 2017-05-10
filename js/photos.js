@@ -85,7 +85,6 @@ function updatePhotoDisplay()
 
 	getPeopleInPhoto(currentPhotoList[photoIndex]['id'], function(err,rows)
 	{
-		currentPhotoPeopleList = rows;
 		if (rows.length > 0)
 		{
 			var conts = "";
@@ -97,6 +96,8 @@ function updatePhotoDisplay()
 		{
 			$("#peopleInThisPhoto").html('<i>No people tagged in this photo. Click to add.</i>')
 		}
+		currentPhotoPeopleList = rows;
+		updatePeopleInPhotoModal();
 	});
 
 }
@@ -105,7 +106,6 @@ function hidePhoto()
 {
 	turnOffMode(currentMode);
 	turnOnMode("album");
-
 }
 
 function nextPhoto()

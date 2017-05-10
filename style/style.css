@@ -396,3 +396,8 @@ table
 .searchable:hover {
   background-color: #5cb85c;
 }
+
+.removable:hover
+{
+  background-color: rgb(200,10,10);
+}

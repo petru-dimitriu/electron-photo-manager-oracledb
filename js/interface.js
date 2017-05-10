@@ -32,10 +32,12 @@ function prepareUI()
 
 function getCurrentPhotoPeopleListAsSpans()
 {
-	var ret = "";
+	var ret = "Currently tagged:<br> ";
+	if (currentPhotoPeopleList.length == 0)
+		ret += "noboy";
 	for (var i = 0; i < currentPhotoPeopleList.length; i++)
 	{
-		ret += "<span> " + currentPhotoPeopleList[i]['name'] + "</span>";
+		ret += "<span class='removable' persid='" + currentPhotoPeopleList[i]['id'] + "'> " + currentPhotoPeopleList[i]['name'] + "</span>";
 	}
 	return ret;
 }
@@ -44,7 +46,19 @@ function updatePeopleInPhotoModal()
 {
 	$("#modalTitle").html('People in this photo');
 	$("#currentPeopleInPhoto").html(getCurrentPhotoPeopleListAsSpans());
-	$("#incrementalSearchDiv").html("<input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search or insert new person.'>");
+
+	$(".removable").click( function() {
+		removePersonFromPhoto(
+			$(this).attr('persid'),
+			currentPhotoList[photoIndex]['id'],
+			function(){
+				updatePhotoDisplay();
+				setTimeout(100,updatePeopleInPhotoModal);
+			}
+		);
+	});
+
+	$("#incrementalSearchDiv").html("<input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search.'>");
 }
 
 function displayPeopleInPhotoModal()
@@ -61,7 +75,7 @@ function peopleModalInputKeydown(event)
 
 function getPeopleListAsSpans(rows)
 {
-	var conts = "";
+	var conts = "All people:<br>";
 	for (var i = 0; i < rows.length ; i++)
 	{
 		conts += "<span class='searchable' persid='" + rows[i]['id'] + "'>" + rows[i]['name'] + "</span> ";
@@ -72,9 +86,10 @@ function getPeopleListAsSpans(rows)
 		insertPersonInPhoto(
 			$(this).attr('persid'),
 			currentPhotoList[photoIndex]['id'],
-			function(){updatePhotoDisplay();
-			updatePeopleInPhotoModal();
-		}
+			function(){
+				updatePhotoDisplay();
+				setTimeout(100,updatePeopleInPhotoModal);
+			}
 		);
 	});
 }

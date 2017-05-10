@@ -260,6 +260,14 @@ function insertPersonInPhoto(person_id, photo_id, callback)
 
 function getPeopleInPhoto(photoId, callback)
 {
-	var query = "SELECT name FROM people, peopleInPhotos WHERE peopleInPhotos.person_id = people.id AND photo_id = ?";
+	var query = "SELECT id, name FROM people, peopleInPhotos WHERE peopleInPhotos.person_id = people.id AND photo_id = ?";
 	db.all(query,[ photoId ],callback);
+}
+
+function removePersonFromPhoto(person_id, photo_id, callback)
+{
+	var query = "DELETE FROM peopleInPhotos WHERE photo_id = ? AND person_id = ?";
+	db.serialize(function(){
+		db.run(query, [ photo_id, person_id ], callback);
+	});
 }
