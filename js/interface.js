@@ -110,7 +110,7 @@ function turnOffMode(mode)
 	}
 	else if (mode == 'people')
 	{
-		$("#conts").hide();
+		$("#conts").html('');
 	}
 }
 
@@ -141,6 +141,12 @@ function turnOnMode(mode)
 		$("#conts").show();
 		setTitle("People");
 	}
+}
+
+function changeMode(newMode)
+{
+	turnOffMode(currentMode);
+	turnOnMode(newMode);
 }
 
 function updatePhotoDisplay()
@@ -220,20 +226,82 @@ function prevPhotos()
 
 function displayPeople()
 {
-	turnOffMode(currentMode);
-	turnOnMode("people");
+	changeMode("people");
+	loadPeopleIntoContents();
+}
+
+function loadPeopleIntoContents()
+{
 	getPeopleList(writePeopleList);
 }
 
 function writePeopleList(rows)
 {
-	var conts = "<ul>";
+	var conts = "<table> \
+	<tr id='insertRow'><td colspan='2'><input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search or insert new person.'></tr>";
+
 	for (var i = 0; i < rows.length; i ++)
 	{
-		conts += "<li>" + rows[i]['name']+ "</li>";
+		conts += "<tr><td style='min-width: 400px'>" + rows[i]['name'] + "</td> \
+		<td style='min-width:350px'> <a href='javascript:displayPhotosWithPersonClick(" + rows[i]['id'] +")'>View</a> \
+		<a href='javascript:removePersonClick(" + rows[i]['id'] + ")'>Remove</a> </td>\
+		</tr>";
 	}
-	conts += "</ul>";
+	conts += "</table>";
 	$("#conts").html(conts);
+	$("#incrementalSearchVal").keydown(tableInputKeydown);
+}
+
+function tableInputKeydown(event)
+{
+	if (event.which == 13)
+	{
+		var newPersonName = $('#incrementalSearchVal').val();
+		insertPerson(newPersonName,
+			function()
+		{
+			loadPeopleIntoContents();
+			notify('Person ' + newPersonName + ' added');
+		});
+	}
+	else
+		incrementalSearch();
+}
+
+function incrementalSearch()
+{
+	var searchval = $("#incrementalSearchVal").val();
+	var tableRows = $("table tr");
+	console.log(tableRows);
+	for (var i=1;i<=tableRows.length;i++)
+	{
+		if ($(tableRows[i]).text().search(searchval) == -1)
+			$(tableRows[i]).css("display","none");
+		else
+			$(tableRows[i]).css("display","table-row");
+	}
+
+}
+
+function removePersonClick(id)
+{
+	removePerson(id,
+		function(err){
+			if (err == null)
+			{
+				notify("Person removed.");
+				loadPeopleIntoContents();
+			}
+			else
+			{
+				notify("Person not removed.");
+			}
+		});
+}
+
+function displayPhotoWithPersonClick(id)
+{
+
 }
 
 function getPeopleList(callback)

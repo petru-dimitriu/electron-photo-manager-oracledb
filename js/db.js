@@ -239,3 +239,15 @@ function updatePhotoDescription()
 			$("#photoDesc").animate({backgroundColor:"black"},500);
 		})
 }
+
+function removePerson(id, callback)
+{
+	var query = "DELETE FROM people WHERE id = " + id;
+	db.exec(query, callback);
+}
+
+function insertPerson(name, callback)
+{
+	var query = "INSERT INTO people (name) VALUES (?) ";
+	db.run(query, [ name ], callback);
+}
