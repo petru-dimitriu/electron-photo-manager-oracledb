@@ -24,7 +24,19 @@ function prepareUI()
 		if (e.which == 13)
 			$(this).focusout();
 	}
-);
+	);
+
+	$("#closeModal").click(hideModal);
+}
+
+function displayModal()
+{
+	$("#myModal").css('display','block');
+}
+
+function hideModal()
+{
+	$("#myModal").css('display','none');
 }
 
 function notify(text)
@@ -238,11 +250,13 @@ function loadPeopleIntoContents()
 function writePeopleList(rows)
 {
 	var conts = "<table> \
-	<tr id='insertRow'><td colspan='2'><input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search or insert new person.'></tr>";
+	<tr id='insertRow'><td colspan='2'>\
+	<input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search or insert new person.'>\
+	</tr>";
 
 	for (var i = 0; i < rows.length; i ++)
 	{
-		conts += "<tr><td style='min-width: 400px'>" + rows[i]['name'] + "</td> \
+		conts += "<tr><td>" + rows[i]['name'] + "</td> \
 		<td style='min-width:350px'> <a href='javascript:displayPhotosWithPersonClick(" + rows[i]['id'] +")'>View</a> \
 		<a href='javascript:removePersonClick(" + rows[i]['id'] + ")'>Remove</a> </td>\
 		</tr>";
@@ -272,7 +286,6 @@ function incrementalSearch()
 {
 	var searchval = $("#incrementalSearchVal").val();
 	var tableRows = $("table tr");
-	console.log(tableRows);
 	for (var i=1;i<=tableRows.length;i++)
 	{
 		if ($(tableRows[i]).text().search(searchval) == -1)
