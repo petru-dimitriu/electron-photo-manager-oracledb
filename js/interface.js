@@ -69,8 +69,6 @@ function getPeopleListAsSpans(rows)
 	$("#allPeopleList").html(conts);
 	$("#incrementalSearchVal").keydown(peopleModalInputKeydown);
 	$(".searchable").click(function() {
-		console.log($(this).attr('persid'));
-		console.log(currentPhotoIndex['id']);
 		insertPersonInPhoto(
 			$(this).attr('persid'),
 			currentPhotoList[photoIndex]['id'],
