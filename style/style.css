@@ -326,7 +326,7 @@ table
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 100; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -349,7 +349,8 @@ table
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
+    color: black;
 }
 
 /* Add Animation */
@@ -390,4 +391,8 @@ table
     padding: 2px 16px;
     background-color: #5cb85c;
     color: white;
+}
+
+.searchable:hover {
+  background-color: #5cb85c;
 }
