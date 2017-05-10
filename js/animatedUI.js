@@ -8,7 +8,7 @@ function mouseMoveHandler(event)
       $("#descriptionBox").show();
     }
 
-    if (event.clientX > $(window).width() * (8/9))
+    if (event.clientX > $(window).width() * (5/9))
     {
       if (currentMode == "photo" && ($("#descriptionBoxRight").css('display') == "none"))
       {

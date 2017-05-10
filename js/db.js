@@ -252,6 +252,12 @@ function insertPerson(name, callback)
 	db.run(query, [ name ], callback);
 }
 
+function insertPersonInPhoto(person_id, photo_id, callback)
+{
+	var query = "INSERT INTO peopleInPhotos (photo_id, person_id) VALUES (?,?)";
+	db.run(query, [ photo_id, person_id ], callback);
+}
+
 function getPeopleInPhoto(photoId, callback)
 {
 	var query = "SELECT name FROM people, peopleInPhotos WHERE peopleInPhotos.person_id = people.id AND photo_id = ?";

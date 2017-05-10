@@ -35,17 +35,22 @@ function getCurrentPhotoPeopleListAsSpans()
 	var ret = "";
 	for (var i = 0; i < currentPhotoPeopleList.length; i++)
 	{
-		ret += "<span> " + currentPhotoPeopleList['name'] + "</span>";
+		ret += "<span> " + currentPhotoPeopleList[i]['name'] + "</span>";
 	}
 	return ret;
+}
+
+function updatePeopleInPhotoModal()
+{
+	$("#modalTitle").html('People in this photo');
+	$("#currentPeopleInPhoto").html(getCurrentPhotoPeopleListAsSpans());
+	$("#incrementalSearchDiv").html("<input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search or insert new person.'>");
 }
 
 function displayPeopleInPhotoModal()
 {
 	displayModal();
-	$("#modalTitle").html('People in this photo');
-	$("#currentPeopleInPhoto").html(getCurrentPhotoPeopleListAsSpans());
-	$("#incrementalSearchDiv").html("<input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search or insert new person.'>");
+	updatePeopleInPhotoModal();
 	getPeopleList(getPeopleListAsSpans);
 }
 
@@ -59,11 +64,21 @@ function getPeopleListAsSpans(rows)
 	var conts = "";
 	for (var i = 0; i < rows.length ; i++)
 	{
-		console.log(rows[i]['name']);
-		conts += "<span class='searchable'>" + rows[i]['name'] + "</span> ";
+		conts += "<span class='searchable' persid='" + rows[i]['id'] + "'>" + rows[i]['name'] + "</span> ";
 	}
 	$("#allPeopleList").html(conts);
 	$("#incrementalSearchVal").keydown(peopleModalInputKeydown);
+	$(".searchable").click(function() {
+		console.log($(this).attr('persid'));
+		console.log(currentPhotoIndex['id']);
+		insertPersonInPhoto(
+			$(this).attr('persid'),
+			currentPhotoList[photoIndex]['id'],
+			function(){updatePhotoDisplay();
+			updatePeopleInPhotoModal();
+		}
+		);
+	});
 }
 
 function incrementalSearchPeopleModal()
