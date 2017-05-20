@@ -34,7 +34,7 @@ function getCurrentPhotoPeopleListAsSpans()
 {
 	var ret = "Currently tagged:<br> ";
 	if (currentPhotoPeopleList.length == 0)
-		ret += "noboy";
+		ret += "nobody";
 	for (var i = 0; i < currentPhotoPeopleList.length; i++)
 	{
 		ret += "<span class='removable' persid='" + currentPhotoPeopleList[i]['id'] + "'> " + currentPhotoPeopleList[i]['name'] + "</span>";
@@ -136,7 +136,7 @@ function turnOffMode(mode)
 		$("#mainViewer").hide();
 		$("#commands").hide();
 	}
-	else if (mode == 'photo')
+	else if (mode == 'photo' )
 	{
 		$("#photoViewer").hide();
 		$("#photoViewer").css('opacity',0);
@@ -144,7 +144,7 @@ function turnOffMode(mode)
 		$("#photoCanvas").css('opacity',0);
 		$(window).off("keydown");
 	}
-	else if (mode == 'people')
+	else if (mode == 'people' || mode == 'search')
 	{
 		$("#conts").html('');
 	}
@@ -174,8 +174,18 @@ function turnOnMode(mode)
 	}
 	else if (mode == 'people')
 	{
+		$("#mainViewer").show();
+		$("#commands").show();
 		$("#conts").show();
 		setTitle("People");
+	}
+	else if (mode == 'search')
+	{
+		$("#mainViewer").show();
+		$("#commands").show();
+		$("#conts").show();
+		loadSearch();
+		setTitle("Search");
 	}
 }
 

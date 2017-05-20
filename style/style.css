@@ -401,3 +401,10 @@ table
 {
   background-color: rgb(200,10,10);
 }
+
+select, input
+{
+  background-color: #000066;
+  color: white;
+  border: 1px solid blue;
+}

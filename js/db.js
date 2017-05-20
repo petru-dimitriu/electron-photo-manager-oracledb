@@ -271,3 +271,9 @@ function removePersonFromPhoto(person_id, photo_id, callback)
 		db.run(query, [ photo_id, person_id ], callback);
 	});
 }
+
+function insertPhotoIntoAlbum(path, album, callback)
+{
+	var query = "INSERT INTO photos (path, album) VALUES (?,?)";
+	db.run(query, [path, album], callback);
+}

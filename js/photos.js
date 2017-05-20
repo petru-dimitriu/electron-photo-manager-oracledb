@@ -14,7 +14,7 @@ function displayCurrentPhotoWindow()
 		var shortTitle = currentPhotoList[i]['path'].substr(currentPhotoList[i]['path'].lastIndexOf("/")+1);
 
 		contents +=
-		  "<td style='background-image: url("  + currentPhotoList[i]['path'] + ")' onclick='javascript:displayPhoto(" + i + ")'>" +
+		  "<td style='background-image: url(\""  + currentPhotoList[i]['path'] + "\")' onclick='javascript:displayPhoto(" + i + ")'>" +
 			"<a href='javascript:displayPhoto(" + i + ")'>" +
 			"<div id='photoDesc" + numPhotos + "' class = \"photoDesc\"> " + shortTitle + " </div>" +
 			"</a>" +
@@ -31,12 +31,17 @@ function displayCurrentPhotoWindow()
 }
 
 
-function displayPhotos(albumId, albumTitle)
+function displayPhotos(albumId, albumTitle, query)
 {
 	currentMode = "album";
-	$('#title').html(albumTitle);
+	if (albumTitle == null)
+		$('#title').html('Search results');
+	else
+		$('#title').html(albumTitle);
+		
 	$('#albumViewerCommands').css('display','block');
-	var query = "SELECT * FROM photos WHERE album = " + albumId;
+	if (query == null)
+		query = "SELECT * FROM photos WHERE album = " + albumId;
 	contents = "<table>";
 	db.all(query, function(err, data) {
 		currentPhotoList = data;
