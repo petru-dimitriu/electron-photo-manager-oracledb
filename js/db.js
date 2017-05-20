@@ -277,3 +277,8 @@ function insertPhotoIntoAlbum(path, album, callback)
 	var query = "INSERT INTO photos (path, album) VALUES (?,?)";
 	db.run(query, [path, album], callback);
 }
+
+function viewPhotosWithPerson (person)
+{
+	displayPhotos(null, null, getSqlFromSerachArgs(new SearchArguments("", "any", "", person)));
+}

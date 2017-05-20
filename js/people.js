@@ -20,7 +20,7 @@ function getPeopleListAsTable(rows)
 	for (var i = 0; i < rows.length; i ++)
 	{
 		conts += "<tr class='searchable'><td>" + rows[i]['name'] + "</td> \
-		<td style='min-width:350px'> <a href='javascript:displayPhotosWithPersonClick(" + rows[i]['id'] +")'>View</a> \
+		<td style='min-width:350px'> <a href='javascript:displayPhotosWithPerson(\"" + rows[i]['name'] +"\")'>View</a> \
 		<a href='javascript:removePersonClick(" + rows[i]['id'] + ")'>Remove</a> </td>\
 		</tr>";
 	}
@@ -80,10 +80,11 @@ function removePersonClick(id)
 		});
 }
 
-function displayPhotoWithPersonClick(id)
+function displayPhotosWithPerson (person)
 {
-
+	displayPhotos(null, null, getSqlFromSerachArgs(new SearchArguments("", "any", "", person)));
 }
+
 
 function getPeopleList(callback)
 {
