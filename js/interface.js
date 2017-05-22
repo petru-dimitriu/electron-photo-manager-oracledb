@@ -68,6 +68,22 @@ function displayPeopleInPhotoModal()
 	getPeopleList(getPeopleListAsSpans);
 }
 
+function displayAlbumModal()
+{
+	displayModal();
+  getAlbums(function(err, rows)
+	{
+		var conts = "<select id='albumSelect'>";
+		for (var i = 0; i < rows.length ; i ++)
+		{
+			conts += "<option value ='" + rows[i]['id'] + "' > " + rows[i]['title'] + "</option>";
+		}
+		conts += "</select>";
+		$(".modal-body").html(conts);
+		$("modalTitle").html('Set album');
+	});
+}
+
 function peopleModalInputKeydown(event)
 {
 		incrementalSearchPeopleModal();

@@ -38,10 +38,10 @@ function displayPhotos(albumId, albumTitle, query)
 		$('#title').html('Search results');
 	else
 		$('#title').html(albumTitle);
-		
+
 	$('#albumViewerCommands').css('display','block');
 	if (query == null)
-		query = "SELECT * FROM photos WHERE album = " + albumId;
+		query = "SELECT * FROM photos WHERE album_id = " + albumId;
 	contents = "<table>";
 	db.all(query, function(err, data) {
 		currentPhotoList = data;
@@ -103,6 +103,16 @@ function updatePhotoDisplay()
 		}
 		currentPhotoPeopleList = rows;
 		updatePeopleInPhotoModal();
+	});
+
+	getAlbumName(currentPhotoList[photoIndex]['album_id'], function(err, val)
+	{
+		$("#albumName").html(val[0]['title']);
+	});
+
+	getLocationName(currentPhotoList[photoIndex]['location_id'], function(err, val)
+	{
+		$("#locationName").html(val[0]['name']);
 	});
 
 }

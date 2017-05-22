@@ -8,50 +8,46 @@ photosPerPage = 20;
 $(window).mousemove(mouseMoveHandler);
 currentMode = "";
 
-function displayAlbums()
-{
-	var query = "SELECT * FROM albums";
-	contents = "<ul>";
-	db.serialize(function(){
-		db.each(query,function(err,row){
-			contents += "<li><a href='javascript:displayPhotos(" + row['id'] + ", \"" + row['title'] + "\"" + ")'>" + row['title'] + "</a></li>";
-		}, function(err){
-			contents += "</ul>";
-			$("#conts").html(contents);
-		});
-	});
-
-}
-
 function initDB()
 {
 	db.serialize();
-	db.run(`DROP TABLE photos`);
-	db.run(`DROP TABLE albums`);
-	db.run(`DROP TABLE locations`);
+	db.run(`DROP TABLE IF EXISTS photos`);
+	db.run(`DROP TABLE IF EXISTS albums`);
+	db.run(`DROP TABLE IF EXISTS locations`);
 	db.run(`DROP TABLE IF EXISTS people`);
-	db.run(`DROP TABLE peopleInPhotos`);
-	db.run(`DROP TABLE locations`);
+	db.run(`DROP TABLE IF EXISTS peopleInPhotos`);
+	db.run(`DROP TABLE IF EXISTS locations`);
 
 	lastQuerySuccessful = true;
+
+	db.run(`CREATE TABLE locations (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name TEXT,
+		latitude REAL,
+		longitude REAL CHECK (latitude < 90 and latitude > -90 and longitude < 180 and longitude > -180)
+	)`);
+
+	db.run(`CREATE TABLE albums (
+		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		title TEXT NULL,
+		desc TEXT NULL)`,  {}, function(err){ lastQuerySuccessful = false;});
+
 	db.run(`CREATE TABLE photos(
 	 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	 path TEXT NOT NULL,
 	 description TEXT NULL,
-	 album INTEGER NULL,
+	 album_id INTEGER NULL,
 	 rating INTEGER NULL,
-	 location INTEGER NULL)`, {}, function(err){ lastQuerySuccessful = false;});
+	 location_id INTEGER NULL,
+ 	 FOREIGN KEY (album_id) REFERENCES albums(id),
+   FOREIGN KEY (location_id) REFERENCES locations(id))`, {}, function(err){ lastQuerySuccessful = false;});
+
 
 	 if (lastQuerySuccessful == false)
 	 {
 		 notify("Tables NOT created successfully!");
 		 return;
 	 }
-
-	db.run(`CREATE TABLE albums (
-		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		title TEXT NULL,
-		desc TEXT NULL)`,  {}, function(err){ lastQuerySuccessful = false;});
 
 	if (lastQuerySuccessful == false)
 	{
@@ -72,13 +68,6 @@ function initDB()
 		FOREIGN KEY(person_id) REFERENCES people(id),
 		FOREIGN KEY(photo_id) REFERENCES photos(id))`
 		);
-
-	db.run(`CREATE TABLE locations (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		name TEXT,
-		latitude REAL,
-		longitude REAL CHECK (latitude < 90 and latitude > -90 and longitude < 180 and longitude > -180)
-	)`);
 
 	db.run('INSERT INTO locations (name, latitude, longitude) VALUES (\'Iasi\', 47.151726, 27.587914), (\'Bucharest\', 44.439663, 26.096306)' );
 
@@ -104,7 +93,7 @@ function parseRootDirectoryDialog()
 function parsePhotosInAlbum(rootDir,albumId)
 {
 	var filenames = fs.readdirSync(rootDir);
-	var photoStatement = "INSERT INTO photos (path, album) VALUES ";
+	var photoStatement = "INSERT INTO photos (path, album_id) VALUES ";
 	var photoDetailsArray = [];
 
 	for (var i = 0; i<filenames.length;i++)
@@ -268,6 +257,12 @@ function removeLocation(id, callback)
 	db.exec(query, callback);
 }
 
+function removeAlbum(id, callback)
+{
+	var query = "DELETE FROM albums WHERE id = " + id;
+	db.exec(query, callback);
+}
+
 function insertPersonInPhoto(person_id, photo_id, callback)
 {
 	var query = "INSERT INTO peopleInPhotos (photo_id, person_id) VALUES (?,?)";
@@ -290,6 +285,50 @@ function removePersonFromPhoto(person_id, photo_id, callback)
 
 function insertPhotoIntoAlbum(path, album, callback)
 {
-	var query = "INSERT INTO photos (path, album) VALUES (?,?)";
+	var query = "INSERT INTO photos (path, album_id) VALUES (?,?)";
 	db.run(query, [path, album], callback);
+}
+
+function getAlbumName(id, callback)
+{
+	var query = "SELECT title FROM albums WHERE id = ?";
+	db.all(query, [id], callback );
+}
+
+function displayAlbums()
+{
+	var query = "SELECT * FROM albums";
+	contents = "<table>";
+	db.serialize(function(){
+		db.each(query,function(err,row){
+			contents += "<tr><td><a href='javascript:displayPhotos(" + row['id'] + ", \"" + row['title'] + "\"" + ")'>" + row['title'] + "</a></td> \
+			<td><a href='javascript:removeAlbumClick(" + row['id'] + ")'>Remove</a></td></tr>";
+		}, function(err){
+			contents += "</table>";
+			$("#conts").html(contents);
+		});
+	});
+
+}
+
+function getAlbums(callback)
+{
+	var query = "SELECT * FROM albums";
+	db.all(query,[],callback);
+}
+
+function removeAlbumClick(id)
+{
+	removeAlbum(id,
+		function(err){
+			if (err == null)
+			{
+				notify("Album removed.");
+				displayAlbums();
+			}
+			else
+			{
+				notify("Album not removed.");
+			}
+		});
 }
