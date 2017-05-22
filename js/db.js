@@ -31,6 +31,7 @@ function initDB()
 	db.run(`DROP TABLE locations`);
 	db.run(`DROP TABLE IF EXISTS people`);
 	db.run(`DROP TABLE peopleInPhotos`);
+	db.run(`DROP TABLE locations`);
 
 	lastQuerySuccessful = true;
 	db.run(`CREATE TABLE photos(
@@ -58,12 +59,6 @@ function initDB()
 	 	 return;
 	}
 
-	db.run(`CREATE TABLE locations (
-		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		name TEXT NULL,
-		latitude REAL,
-	  longitude REAL)`);
-
 	db.run(`CREATE TABLE people (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		name TEXT NULL)`
@@ -77,6 +72,15 @@ function initDB()
 		FOREIGN KEY(person_id) REFERENCES people(id),
 		FOREIGN KEY(photo_id) REFERENCES photos(id))`
 		);
+
+	db.run(`CREATE TABLE locations (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name TEXT,
+		latitude REAL,
+		longitude REAL CHECK (latitude < 90 and latitude > -90 and longitude < 180 and longitude > -180)
+	)`);
+
+	db.run('INSERT INTO locations (name, latitude, longitude) VALUES (\'Iasi\', 47.151726, 27.587914), (\'Bucharest\', 44.439663, 26.096306)' );
 
 	notify("Tables created successfully!");
 }
@@ -252,6 +256,18 @@ function insertPerson(name, callback)
 	db.run(query, [ name ], callback);
 }
 
+function insertLocation(name, lat, long, callback)
+{
+	var query = "INSERT INTO locations (name, latitude, longitude) VALUES (?, ?, ?) ";
+	db.run(query, [ name, lat, long ], callback);
+}
+
+function removeLocation(id, callback)
+{
+	var query = "DELETE FROM locations WHERE id = " + id;
+	db.exec(query, callback);
+}
+
 function insertPersonInPhoto(person_id, photo_id, callback)
 {
 	var query = "INSERT INTO peopleInPhotos (photo_id, person_id) VALUES (?,?)";
@@ -276,9 +292,4 @@ function insertPhotoIntoAlbum(path, album, callback)
 {
 	var query = "INSERT INTO photos (path, album) VALUES (?,?)";
 	db.run(query, [path, album], callback);
-}
-
-function viewPhotosWithPerson (person)
-{
-	displayPhotos(null, null, getSqlFromSerachArgs(new SearchArguments("", "any", "", person)));
 }

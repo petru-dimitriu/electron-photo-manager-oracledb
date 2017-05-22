@@ -144,7 +144,7 @@ function turnOffMode(mode)
 		$("#photoCanvas").css('opacity',0);
 		$(window).off("keydown");
 	}
-	else if (mode == 'people' || mode == 'search')
+	else if (mode == 'people' || mode == 'search' || mode == 'Location')
 	{
 		$("#conts").html('');
 	}
@@ -178,6 +178,13 @@ function turnOnMode(mode)
 		$("#commands").show();
 		$("#conts").show();
 		setTitle("People");
+	}
+	else if (mode == 'Location')
+	{
+		$("#mainViewer").show();
+		$("#commands").show();
+		$("#conts").show();
+		setTitle("Locations");
 	}
 	else if (mode == 'search')
 	{
