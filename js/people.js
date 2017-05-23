@@ -82,7 +82,7 @@ function removePersonClick(id)
 
 function displayPhotosWithPerson (person)
 {
-	displayPhotos(null, null, getSqlFromSerachArgs(new SearchArguments("", "any", "", person)));
+	displayPhotos(null, null, getSqlFromSerachArgs(new SearchArguments("", "any", "", person,"")));
 }
 
 function displayPhotosWithLocation (location)

@@ -14,7 +14,7 @@ function getLocationListAsTable(rows)
 {
 	var conts = "<table> \
 	<tr id='insertRow'><td colspan='1'>\
-  <input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search or insert new Location.'> \
+  <input id='incrementalSearchValLoc' style='width:100%;' placeholder = 'Type here to search or insert new Location.'> \
 	</td> \
   <td> <input id ='latitude'> </td> \
   <td> <input id ='longitude'> </td> \
@@ -31,14 +31,16 @@ function getLocationListAsTable(rows)
 	}
 	conts += "</table>";
 	$("#conts").html(conts);
-	$("#incrementalSearchVal").keydown(tableInputKeydown);
+	$("#incrementalSearchValLoc").keydown(tableInputKeydownLoc);
+	$("#latitude").keydown(tableInputKeydownLoc);
+	$("#longitude").keydown(tableInputKeydownLoc);
 }
 
-function tableInputKeydown(event)
+function tableInputKeydownLoc(event)
 {
 	if (event.which == 13)
 	{
-		var newLocationName = $('#incrementalSearchVal').val();
+		var newLocationName = $('#incrementalSearchValLoc').val();
     var newLocationLat = $('#latitude').val();
     var newLocationLong = $('#longitude').val();
 		insertLocation(newLocationName, newLocationLat, newLocationLong,
@@ -51,7 +53,7 @@ function tableInputKeydown(event)
     }
     else
     {
-      notify('Location ' + newLocationName + ' NOT added');
+      notify('Location ' + newLocationName + ' NOT added. Check constraints!');
     }
 		});
 	}

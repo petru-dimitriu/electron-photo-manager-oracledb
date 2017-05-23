@@ -60,10 +60,18 @@ function updatePeopleInPhotoModal()
 	$("#incrementalSearchDiv").html("<input id='incrementalSearchVal' style='width:100%;' placeholder = 'Type here to search.'>");
 }
 
+function preparePeopleInPhotoModal()
+{
+	$(".modal-body").html('<div id = "currentPeopleInPhoto"> </div> \
+	<div id = "incrementalSearchDiv"> </div>\
+	<div id = "allPeopleList"> </div>');
+}
+
 function displayPeopleInPhotoModal()
 {
 	displayModal();
 	$("#modalTitle").html('People in this photo');
+	preparePeopleInPhotoModal();
 	updatePeopleInPhotoModal();
 	getPeopleList(getPeopleListAsSpans);
 }

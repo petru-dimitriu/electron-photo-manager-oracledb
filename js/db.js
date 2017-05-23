@@ -11,7 +11,9 @@ currentMode = "";
 function initDB()
 {
 	db.serialize();
+	db.run(`PRAGMA foreign_keys = ON`);
 	db.run(`DROP TABLE IF EXISTS photos`);
+	db.run(`DROP TABLE IF EXISTS photosExtraData`);
 	db.run(`DROP TABLE IF EXISTS albums`);
 	db.run(`DROP TABLE IF EXISTS locations`);
 	db.run(`DROP TABLE IF EXISTS people`);
@@ -36,11 +38,16 @@ function initDB()
 	 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	 path TEXT NOT NULL,
 	 description TEXT NULL,
-	 album_id INTEGER NULL,
+	 album_id INTEGER NULL REFERENCES albums(id) ON DELETE CASCADE,
 	 rating INTEGER NULL,
-	 location_id INTEGER NULL,
- 	 FOREIGN KEY (album_id) REFERENCES albums(id),
-   FOREIGN KEY (location_id) REFERENCES locations(id))`, {}, function(err){ lastQuerySuccessful = false;});
+	 location_id INTEGER NULL REFERENCES locations(id) ON DELETE CASCADE
+ 	)`, {}, function(err){ lastQuerySuccessful = false;});
+
+	 db.run(`CREATE TABLE photosExtraData(
+		 photo_id INTEGER PRIMARY KEY AUTOINCREMENT,
+		 data TEXT,
+		 FOREIGN KEY(photo_id) REFERENCES photos(id) ON DELETE CASCADE
+	 )`);
 
 
 	 if (lastQuerySuccessful == false)
@@ -94,7 +101,9 @@ function parsePhotosInAlbum(rootDir,albumId)
 {
 	var filenames = fs.readdirSync(rootDir);
 	var photoStatement = "INSERT INTO photos (path, album_id) VALUES ";
+	var photoExtraStatement = "INSERT INTO photosExtraData (data) VALUES ";
 	var photoDetailsArray = [];
+	var photoSizeArray = [];
 
 	for (var i = 0; i<filenames.length;i++)
 	{
@@ -103,15 +112,18 @@ function parsePhotosInAlbum(rootDir,albumId)
 		{
 			photoDetailsArray.push(rootDir+filenames[i]);
 			photoDetailsArray.push(albumId);
+			photoSizeArray.push(stats.size);
 		}
 	}
 
 	if (photoDetailsArray.length > 0)
 	{
 		photoStatement += "(?, ?), ".repeat(photoDetailsArray.length/2 -1) + "(?, ?)";
+		photoExtraStatement += "(?), ".repeat(photoExtraStatement.length-1) + "(?)";
 		db.serialize(function()
 		{
 					db.run(photoStatement,photoDetailsArray);
+					db.run(photoExtraStatement,photoSizeArray);
 		},function(){
 			notify("Finished creating album " + albumName);
 		});
