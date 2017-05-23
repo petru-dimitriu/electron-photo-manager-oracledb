@@ -31,8 +31,9 @@ function initDB()
 
 	db.run(`CREATE TABLE albums (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		title TEXT NULL,
-		desc TEXT NULL)`,  {}, function(err){ lastQuerySuccessful = false;});
+		title TEXT NOT NULL,
+		desc TEXT NULL,
+		CONSTRAINT uq_title UNIQUE(title))`,  {}, function(err){ lastQuerySuccessful = false;});
 
 	db.run(`CREATE TABLE photos(
 	 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -73,7 +74,8 @@ function initDB()
 		person_id INTEGER,
 		photo_id INTEGER,
 		FOREIGN KEY(person_id) REFERENCES people(id),
-		FOREIGN KEY(photo_id) REFERENCES photos(id))`
+		FOREIGN KEY(photo_id) REFERENCES photos(id),
+		CONSTRAINT uq_couple UNIQUE(person_id, photo_id))`
 		);
 
 	db.run('INSERT INTO locations (name, latitude, longitude) VALUES (\'Iasi\', 47.151726, 27.587914), (\'Bucharest\', 44.439663, 26.096306)' );
