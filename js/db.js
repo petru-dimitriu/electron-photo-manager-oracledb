@@ -295,6 +295,12 @@ function getAlbumName(id, callback)
 	db.all(query, [id], callback );
 }
 
+function getLocationName(id, callback)
+{
+	var query = "SELECT name FROM locations WHERE id = ?";
+	db.all(query, [id], callback );
+}
+
 function displayAlbums()
 {
 	var query = "SELECT * FROM albums";
@@ -315,6 +321,25 @@ function getAlbums(callback)
 {
 	var query = "SELECT * FROM albums";
 	db.all(query,[],callback);
+}
+
+function getLocations(callback)
+{
+	var query = "SELECT * FROM locations";
+	db.all(query,[],callback);
+}
+
+function movePhotoToAlbum(photoId, albumId, callback)
+{
+	var query = "UPDATE photos SET album_id = ? WHERE id = ?";
+	albumId = parseInt(albumId);
+	db.run(query, [albumId, photoId], callback);
+}
+
+function movePhotoToLocation(photoId, locationId, callback)
+{
+	var query = "UPDATE photos SET location_id = ? WHERE id = ?";
+	db.run(query, [locationId, photoId], callback);
 }
 
 function removeAlbumClick(id)

@@ -112,7 +112,10 @@ function updatePhotoDisplay()
 
 	getLocationName(currentPhotoList[photoIndex]['location_id'], function(err, val)
 	{
-		$("#locationName").html(val[0]['name']);
+		if (val[0] === undefined)
+			$("#locationName").html('<i>No location set</i>');
+		else
+			$("#locationName").html(val[0]['name']);
 	});
 
 }

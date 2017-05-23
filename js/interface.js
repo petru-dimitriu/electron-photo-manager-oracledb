@@ -44,7 +44,6 @@ function getCurrentPhotoPeopleListAsSpans()
 
 function updatePeopleInPhotoModal()
 {
-	$("#modalTitle").html('People in this photo');
 	$("#currentPeopleInPhoto").html(getCurrentPhotoPeopleListAsSpans());
 
 	$(".removable").click( function() {
@@ -64,6 +63,7 @@ function updatePeopleInPhotoModal()
 function displayPeopleInPhotoModal()
 {
 	displayModal();
+	$("#modalTitle").html('People in this photo');
 	updatePeopleInPhotoModal();
 	getPeopleList(getPeopleListAsSpans);
 }
@@ -71,17 +71,75 @@ function displayPeopleInPhotoModal()
 function displayAlbumModal()
 {
 	displayModal();
+	$("#modalTitle").html('Set album');
   getAlbums(function(err, rows)
 	{
-		var conts = "<select id='albumSelect'>";
+		var conts = "<select id='albumSelect' style='width:100%' onchange='javascript:changeAlbumClick()'>";
 		for (var i = 0; i < rows.length ; i ++)
 		{
 			conts += "<option value ='" + rows[i]['id'] + "' > " + rows[i]['title'] + "</option>";
 		}
 		conts += "</select>";
 		$(".modal-body").html(conts);
-		$("modalTitle").html('Set album');
+		$("#albumSelect").val(currentPhotoList[currentPhotoIndex]['album_id']);
 	});
+}
+
+function displayLocationModal()
+{
+	displayModal();
+	$("#modalTitle").html('Set location');
+  getLocations(function(err, rows)
+	{
+		var conts = "<select id='locationSelect' style='width:100%' onchange='javascript:changeLocationClick()'>";
+		for (var i = 0; i < rows.length ; i ++)
+		{
+			conts += "<option value ='" + rows[i]['id'] + "' > " + rows[i]['name'] + "</option>";
+		}
+		conts += "</select>";
+		$(".modal-body").html(conts);
+		$("#albumSelect").val(currentPhotoList[currentPhotoIndex]['location_id']);
+	});
+}
+
+function changeAlbumClick()
+{
+	movePhotoToAlbum(currentPhotoList[currentPhotoIndex]['id'], $("#albumSelect").val(),
+	function(err)
+{
+	var initialBgColour = $("#albumSelect").css('backgroundColor');
+	if (err != null)
+	{
+		$("#albumSelect").css('backgroundColor','red');
+	}
+	else
+	{
+		currentPhotoList[currentPhotoIndex]['album_id'] = $("#albumSelect").val();
+		$("#albumSelect").css('backgroundColor','green');
+		updatePhotoDisplay();
+	}
+	$("#albumSelect").animate({backgroundColor:initialBgColour},500);
+})
+}
+
+function changeLocationClick()
+{
+	movePhotoToLocation(currentPhotoList[currentPhotoIndex]['id'], $("#locationSelect").val(),
+	function(err)
+{
+	var initialBgColour = $("#locationSelect").css('backgroundColor');
+	if (err != null)
+	{
+		$("#locationSelect").css('backgroundColor','red');
+	}
+	else
+	{
+		$("#locationSelect").css('backgroundColor','green');
+		currentPhotoList[currentPhotoIndex]['location_id'] = $("#locationSelect").val();
+		updatePhotoDisplay();
+	}
+	$("#locationSelect").animate({backgroundColor:initialBgColour},500);
+})
 }
 
 function peopleModalInputKeydown(event)
