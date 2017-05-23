@@ -99,7 +99,7 @@ function updatePhotoDisplay()
 		}
 		else
 		{
-			$("#peopleInThisPhoto").html('<i>No people tagged in this photo. Click to add.</i>')
+			$("#peopleInThisPhoto").html('<i>No people tagged.</i>')
 		}
 		currentPhotoPeopleList = rows;
 		updatePeopleInPhotoModal();

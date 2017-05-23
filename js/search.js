@@ -16,6 +16,8 @@ function loadSearch()
     </select><br>
     Part of one album name, if any:<br/>
     <input style = 'width:90%' id = "album" type = "text" placeholder = "(none)"> <br/>
+    Location, if any:<br/>
+    <input style = 'width:90%' id = "locations" type = "text" placeholder = "(none)"> <br/>
     Parts of people's names, comma-separated:<br/>
     <input style = 'width:90%' id = "people" type = "text" placeholder = "(none)"> <br/>
     <a style='font-size:150%' href = "javascript:performSearchClick()">Search</a> <br>
@@ -29,19 +31,21 @@ function performSearchClick(display)
   var rating = $("#rating").val();
   var album = $("#album").val();
   var people = $("#people").val();
-  var sql = getSqlFromSerachArgs(new SearchArguments(filename, rating, album, people));
+  var locations = $("#locations").val();
+  var sql = getSqlFromSerachArgs(new SearchArguments(filename, rating, album, people, locations));
   if (display == true)
     alert(sql);
   else
     displayPhotos(null, null, sql);
 }
 
-function SearchArguments(filename, rating, album, people)
+function SearchArguments(filename, rating, album, people, locations)
 {
   this.filename = filename;
   this.rating = rating;
   this.album = album;
   this.people = people;
+  this.locations = locations;
 }
 
 function getSqlFromSerachArgs(searchArgs)
@@ -64,7 +68,14 @@ function getSqlFromSerachArgs(searchArgs)
   {
     if (and)
       query += " AND ";
-    query += `album IN (SELECT id FROM albums WHERE title LIKE '%` + searchArgs.album + `%')`;
+    query += `album_id IN (SELECT id FROM albums WHERE title LIKE '%` + searchArgs.album + `%')`;
+    and = true;
+  }
+  if (searchArgs.locations != '')
+  {
+    if (and)
+      query += " AND ";
+    query += `location_id IN (SELECT id FROM locations WHERE name LIKE '%` + searchArgs.locations + `%')`;
     and = true;
   }
   if (searchArgs.people != '')

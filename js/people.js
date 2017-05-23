@@ -85,6 +85,11 @@ function displayPhotosWithPerson (person)
 	displayPhotos(null, null, getSqlFromSerachArgs(new SearchArguments("", "any", "", person)));
 }
 
+function displayPhotosWithLocation (location)
+{
+	displayPhotos(null, null, getSqlFromSerachArgs(new SearchArguments("", "any", "", "", location)));
+}
+
 
 function getPeopleList(callback)
 {

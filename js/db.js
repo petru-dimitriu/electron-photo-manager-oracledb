@@ -310,11 +310,22 @@ function displayAlbums()
 			contents += "<tr><td><a href='javascript:displayPhotos(" + row['id'] + ", \"" + row['title'] + "\"" + ")'>" + row['title'] + "</a></td> \
 			<td><a href='javascript:removeAlbumClick(" + row['id'] + ")'>Remove</a></td></tr>";
 		}, function(err){
+			contents += "<tr><td><input id='newAlbumName'></td><td><a href='javascript:addAlbumClick()'>Add new</a></td></tr>";
 			contents += "</table>";
 			$("#conts").html(contents);
 		});
 	});
+}
 
+function addAlbumClick()
+{
+	addAlbum($("#newAlbumName").val(), displayAlbums);
+}
+
+function addAlbum(name, callback)
+{
+	var query = "INSERT INTO albums (title) VALUES (?)";
+	db.run(query,[name], callback);
 }
 
 function getAlbums(callback)
