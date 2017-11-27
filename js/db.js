@@ -106,13 +106,18 @@ function parsePhotosInAlbum(rootDir,albumId)
 	var photoExtraStatement = "INSERT INTO photosExtraData (data) VALUES ";
 	var photoDetailsArray = [];
 	var photoSizeArray = [];
+	var currentFileName;
 
 	for (var i = 0; i<filenames.length;i++)
 	{
 		stats = fs.statSync(rootDir+"/"+filenames[i]);
 		if (stats.isFile())
 		{
-			photoDetailsArray.push(rootDir+filenames[i]);
+			currentFileName = rootDir+"/"+filenames[i];
+			currentFileName = currentFileName.replace(/\\/g, "/");
+			console.log(currentFileName);
+			photoDetailsArray.push(currentFileName);
+			
 			photoDetailsArray.push(albumId);
 			photoSizeArray.push(stats.size);
 		}
