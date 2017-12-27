@@ -37,7 +37,7 @@ function getCurrentPhotoPeopleListAsSpans()
 		ret += "nobody";
 	for (var i = 0; i < currentPhotoPeopleList.length; i++)
 	{
-		ret += "<span class='removable' persid='" + currentPhotoPeopleList[i]['id'] + "'> " + currentPhotoPeopleList[i]['name'] + "</span>";
+		ret += "<span class='removable' persid='" + currentPhotoPeopleList[i]['ID'] + "'> " + currentPhotoPeopleList[i]['NAME'] + "</span>";
 	}
 	return ret;
 }
@@ -49,7 +49,7 @@ function updatePeopleInPhotoModal()
 	$(".removable").click( function() {
 		removePersonFromPhoto(
 			$(this).attr('persid'),
-			currentPhotoList[photoIndex]['id'],
+			currentPhotoList[photoIndex]['ID'],
 			function(){
 				updatePhotoDisplay();
 				setTimeout(100,updatePeopleInPhotoModal);
@@ -85,7 +85,7 @@ function displayAlbumModal()
 		var conts = "<select id='albumSelect' style='width:100%' onchange='javascript:changeAlbumClick()'>";
 		for (var i = 0; i < rows.length ; i ++)
 		{
-			conts += "<option value ='" + rows[i]['id'] + "' > " + rows[i]['title'] + "</option>";
+			conts += "<option value ='" + rows[i]['ID'] + "' > " + rows[i]['TITLE'] + "</option>";
 		}
 		conts += "</select>";
 		$(".modal-body").html(conts);
@@ -102,11 +102,11 @@ function displayLocationModal()
 		var conts = "<select id='locationSelect' style='width:100%' onchange='javascript:changeLocationClick()'>";
 		for (var i = 0; i < rows.length ; i ++)
 		{
-			conts += "<option value ='" + rows[i]['id'] + "' > " + rows[i]['name'] + "</option>";
+			conts += "<option value ='" + rows[i]['ID'] + "' > " + rows[i]['NAME'] + "</option>";
 		}
 		conts += "</select>";
 		$(".modal-body").html(conts);
-		$("#albumSelect").val(currentPhotoList[currentPhotoIndex]['location_id']);
+		$("#albumSelect").val(currentPhotoList[currentPhotoIndex]['LOCATION_ID']);
 	});
 }
 
@@ -122,7 +122,7 @@ function changeAlbumClick()
 	}
 	else
 	{
-		currentPhotoList[currentPhotoIndex]['album_id'] = $("#albumSelect").val();
+		currentPhotoList[currentPhotoIndex]['ALBUM_ID'] = $("#albumSelect").val();
 		$("#albumSelect").css('backgroundColor','green');
 		updatePhotoDisplay();
 	}
@@ -132,7 +132,7 @@ function changeAlbumClick()
 
 function changeLocationClick()
 {
-	movePhotoToLocation(currentPhotoList[currentPhotoIndex]['id'], $("#locationSelect").val(),
+	movePhotoToLocation(currentPhotoList[currentPhotoIndex]['ID'], $("#locationSelect").val(),
 	function(err)
 {
 	var initialBgColour = $("#locationSelect").css('backgroundColor');
@@ -143,7 +143,7 @@ function changeLocationClick()
 	else
 	{
 		$("#locationSelect").css('backgroundColor','green');
-		currentPhotoList[currentPhotoIndex]['location_id'] = $("#locationSelect").val();
+		currentPhotoList[currentPhotoIndex]['LOCATION_ID'] = $("#locationSelect").val();
 		updatePhotoDisplay();
 	}
 	$("#locationSelect").animate({backgroundColor:initialBgColour},500);
@@ -160,14 +160,14 @@ function getPeopleListAsSpans(rows)
 	var conts = "All people:<br>";
 	for (var i = 0; i < rows.length ; i++)
 	{
-		conts += "<span class='searchable' persid='" + rows[i]['id'] + "'>" + rows[i]['name'] + "</span> ";
+		conts += "<span class='searchable' persid='" + rows[i]['ID'] + "'>" + rows[i]['NAME'] + "</span> ";
 	}
 	$("#allPeopleList").html(conts);
 	$("#incrementalSearchVal").keydown(peopleModalInputKeydown);
 	$(".searchable").click(function() {
 		insertPersonInPhoto(
 			$(this).attr('persid'),
-			currentPhotoList[photoIndex]['id'],
+			currentPhotoList[photoIndex]['ID'],
 			function(){
 				updatePhotoDisplay();
 				setTimeout(100,updatePeopleInPhotoModal);

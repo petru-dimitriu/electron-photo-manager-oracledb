@@ -11,10 +11,10 @@ function displayCurrentPhotoWindow()
 			contents += "<tr class='imgrow'>";
 		}
 
-		var shortTitle = currentPhotoList[i]['path'].substr(currentPhotoList[i]['path'].lastIndexOf("/")+1);
+		var shortTitle = currentPhotoList[i]['PATH'].substr(currentPhotoList[i]['PATH'].lastIndexOf("/")+1);
 
 		contents +=
-		  "<td style='background-image: url(\""  + currentPhotoList[i]['path'] + "\")' onclick='javascript:displayPhoto(" + i + ")'>" +
+		  "<td style='background-image: url(\""  + currentPhotoList[i]['PATH'] + "\")' onclick='javascript:displayPhoto(" + i + ")'>" +
 			"<a href='javascript:displayPhoto(" + i + ")'>" +
 			"<div id='photoDesc" + numPhotos + "' class = \"photoDesc\"> " + shortTitle + " </div>" +
 			"</a>" +
@@ -43,7 +43,7 @@ function displayPhotos(albumId, albumTitle, query)
 	if (query == null)
 		query = "SELECT * FROM photos WHERE album_id = " + albumId;
 	contents = "<table>";
-	db.all(query, function(err, data) {
+	conn.all(query, function(err, data) {
 		currentPhotoList = data;
 		currentPhotoIndex = 0;
 		currentPhotoWindowFirstIndex = 0;
@@ -62,12 +62,12 @@ function displayPhoto(index)
 
 function updatePhotoDisplay()
 {
-	$("#photoCanvas").css('background','black url(\'' + currentPhotoList[photoIndex]['path'] + '\') no-repeat fixed center');
+	$("#photoCanvas").css('background','black url(\'' + currentPhotoList[photoIndex]['PATH'] + '\') no-repeat fixed center');
 	$("#photoCanvas").css('background-size','contain	');
-	var shortTitle = currentPhotoList[photoIndex]['path'].substr(currentPhotoList[photoIndex]['path'].lastIndexOf("/")+1);
+	var shortTitle = currentPhotoList[photoIndex]['PATH'].substr(currentPhotoList[photoIndex]['PATH'].lastIndexOf("/")+1);
 	$("#photoTitle").html(shortTitle);
-	var description = currentPhotoList[photoIndex]['description'];
-	var rating = currentPhotoList[photoIndex]['rating'];
+	var description = currentPhotoList[photoIndex]['DESCRIPTION'];
+	var rating = currentPhotoList[photoIndex]['RATING'];
 
 	if (description === null)
 	{
@@ -88,13 +88,13 @@ function updatePhotoDisplay()
 			$("#rate"+i).css('backgroundColor','black');
 	}
 
-	getPeopleInPhoto(currentPhotoList[photoIndex]['id'], function(err,rows)
+	getPeopleInPhoto(currentPhotoList[photoIndex]['ID'], function(err,rows)
 	{
 		if (rows.length > 0)
 		{
 			var conts = "";
 			for (var i = 0 ; i < rows.length ; i++)
-				conts += rows[i]['name'] + ", ";
+				conts += rows[i]['NAME'] + ", ";
 			$("#peopleInThisPhoto").html(conts);
 		}
 		else
@@ -105,17 +105,17 @@ function updatePhotoDisplay()
 		updatePeopleInPhotoModal();
 	});
 
-	getAlbumName(currentPhotoList[photoIndex]['album_id'], function(err, val)
+	getAlbumName(currentPhotoList[photoIndex]['ALBUM_ID'], function(err, val)
 	{
-		$("#albumName").html(val[0]['title']);
+		$("#albumName").html(val[0]['TITLE']);
 	});
 
-	getLocationName(currentPhotoList[photoIndex]['location_id'], function(err, val)
+	getLocationName(currentPhotoList[photoIndex]['LOCATION_ID'], function(err, val)
 	{
 		if (val[0] === undefined)
 			$("#locationName").html('<i>No location set</i>');
 		else
-			$("#locationName").html(val[0]['name']);
+			$("#locationName").html(val[0]['NAME']);
 	});
 
 }

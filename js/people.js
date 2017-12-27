@@ -19,9 +19,9 @@ function getPeopleListAsTable(rows)
 
 	for (var i = 0; i < rows.length; i ++)
 	{
-		conts += "<tr class='searchable'><td>" + rows[i]['name'] + "</td> \
-		<td style='min-width:350px'> <a href='javascript:displayPhotosWithPerson(\"" + rows[i]['name'] +"\")'>View</a> \
-		<a href='javascript:removePersonClick(" + rows[i]['id'] + ")'>Remove</a> </td>\
+		conts += "<tr class='searchable'><td>" + rows[i]['NAME'] + "</td> \
+		<td style='min-width:350px'> <a href='javascript:displayPhotosWithPerson(\"" + rows[i]['NAME'] +"\")'>View</a> \
+		<a href='javascript:removePersonClick(" + rows[i]['ID'] + ")'>Remove</a> </td>\
 		</tr>";
 	}
 	conts += "</table>";
@@ -94,10 +94,8 @@ function displayPhotosWithLocation (location)
 function getPeopleList(callback)
 {
 	var query = "SELECT * FROM people";
-	db.serialize(function(){
-		db.all(query, function(err, rows){
-				//console.log(rows);
-			callback(rows);
-		});
+	conn.all(query, function(err, rows){
+			//console.log(rows);
+		callback(rows);
 	});
 }

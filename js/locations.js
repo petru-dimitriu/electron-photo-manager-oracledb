@@ -22,11 +22,11 @@ function getLocationListAsTable(rows)
 
 	for (var i = 0; i < rows.length; i ++)
 	{
-		conts += "<tr class='searchable'><td>" + rows[i]['name'] + "</td> \
-		<td> " + rows[i]['latitude'] + "</td>\
-    <td> " + rows[i]['longitude'] + "</td>\
-    <td> <a href='javascript:displayPhotosWithLocation(\"" + rows[i]['name'] +"\")'>View</a> \
-    <a href='javascript:removeLocationClick(" + rows[i]['id'] + ")'>Remove</a></td>  \
+		conts += "<tr class='searchable'><td>" + rows[i]['NAME'] + "</td> \
+		<td> " + rows[i]['LATITUDE'] + "</td>\
+    <td> " + rows[i]['LONGITUDE'] + "</td>\
+    <td> <a href='javascript:displayPhotosWithLocation(\"" + rows[i]['NAME'] +"\")'>View</a> \
+    <a href='javascript:removeLocationClick(" + rows[i]['ID'] + ")'>Remove</a></td>  \
 		</tr>";
 	}
 	conts += "</table>";
@@ -82,10 +82,8 @@ function removeLocationClick(id)
 function getLocationList(callback)
 {
 	var query = "SELECT * FROM locations";
-	db.serialize(function(){
-		db.all(query, function(err, rows){
+		conn.all(query, function(err, rows){
 				//console.log(rows);
 			callback(rows);
 		});
-	});
 }
