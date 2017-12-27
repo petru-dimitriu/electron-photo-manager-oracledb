@@ -4,7 +4,7 @@
   "description": "Personal photo organizer based on Electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js",
+    "start": "electron main2.js",
     "postinstall": "install-app-deps"
   },
   "repository": {
@@ -26,6 +26,8 @@
     "electron-reload": "^1.1.0",
     "jquery": "~2.2.0",
     "jquery-ui": "~1.10.5",
+    "oracledb": "^1.13.1",
+    "simple-oracledb": "^1.1.88",
     "sqlite3": "^3.1.8"
   }
 }

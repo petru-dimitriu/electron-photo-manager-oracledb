@@ -252,7 +252,7 @@ window.onload = function init()
 function delPhoto()
 {
 	var currentPhotoId = currentPhotoList[photoIndex]['ID'];
-	conn.execute("DELETE FROM photos WHERE id = ? ", [currentPhotoId], function(error)
+	conn.execute("BEGIN photoman.delete_photo(:x); END; ", [currentPhotoId], function(error)
 	{
 		if (error === null)
 		{
@@ -271,7 +271,7 @@ function setCurrentPhotoRating(rating)
 {
 	var currentPhotoId = currentPhotoList[photoIndex]['ID'];
 	var oldRating = currentPhotoList[photoIndex]['RATING'];
-	conn.execute("UPDATE photos SET rating = :x WHERE id = :Y",[rating, currentPhotoId],
+	conn.execute("BEGIN photoman.set_photo_rating(:x, :y); END;",[currentPhotoId, rating],
 		function(error)
 		{
 			if (error === null)
@@ -295,7 +295,7 @@ function updatePhotoDescription()
 {
 	var currentPhotoId = currentPhotoList[photoIndex]['ID'];
 	var newPhotoDescription = $("#photoDesc").html();
-	conn.execute("UPDATE photos SET description = :description  WHERE id = :id", [newPhotoDescription, currentPhotoId],
+	conn.execute("BEGIN photoman.set_photo_description(:x, :y); END;", [currentPhotoId, newPhotoDescription],
 		function(error) {
 			if (error !== null)
 			{
@@ -313,38 +313,38 @@ function updatePhotoDescription()
 
 function removePerson(id, callback)
 {
-	var query = "DELETE FROM people WHERE id = " + id;
+	var query = "BEGIN photoman.remove_person(" + id + ") END;";
 	conn.execute(query, callback);
 }
 
 function insertPerson(name, callback)
 {
-	var query = "INSERT INTO people (name) VALUES (:x) ";
+	var query = "BEGIN photoman.insert_person(:x); END;";
 	conn.execute(query, [ name ], callback);
 }
 
 function insertLocation(name, lat, longitude, callback)
 {
-	var query = "INSERT INTO locations (name, latitude, longitude) VALUES (:name, :latitude, :longitude) ";
+	var query = "BEGIN photoman.insert_location(:x, :y, :z); END;";
 	conn.execute(query, [ name, lat, longitude ], callback);
 }
 
 function removeLocation(id, callback)
 {
-	var query = "DELETE FROM locations WHERE id = " + id;
+	var query = "BEGIN photoman.remove_location(:x) END;";
 	conn.execute(query, [], callback);
 }
 
 function removeAlbum(id, callback)
 {
-	var query = "DELETE FROM albums WHERE id = " + id;
+	var query = "BEGIN photoman.remove_album(" + id + "); END;";
 	conn.execute(query, [], callback);
 }
 
 function insertPersonInPhoto(person_id, photo_id, callback)
 {
-	var query = "INSERT INTO peopleInPhotos (photo_id, person_id) VALUES (:x,:x)";
-	conn.execute(query, [ photo_id, person_id ], callback);
+	var query = "BEGIN photoman.insert_person_in_photo(:x, :y); END;";
+	conn.execute(query, [ person_id,  photo_id ], callback);
 }
 
 function getPeopleInPhoto(photoId, callback)
@@ -355,13 +355,13 @@ function getPeopleInPhoto(photoId, callback)
 
 function removePersonFromPhoto(person_id, photo_id, callback)
 {
-	var query = "DELETE FROM peopleInPhotos WHERE photo_id = :x AND person_id = :y";
-	conn.execute(query,  [ photo_id, person_id ], callback);
+	var query = "BEGIN photoman.remove_person_from_photo(:x,:y); END;";
+	conn.execute(query,  [ person_id, photo_id ], callback);
 }
 
 function insertPhotoIntoAlbum(path, album, callback)
 {
-	var query = "INSERT INTO photos (path, album_id) VALUES (:X,:Y)";
+	var query = "BEGIN photoman.insert_photo_into_album(:X,:Y); END;";
 	conn.execute(query, [path, album], callback);
 }
 
@@ -399,7 +399,7 @@ function addAlbumClick()
 
 function addAlbum(name, callback)
 {
-	var query = "INSERT INTO albums (title) VALUES (:x)";
+	var query = "BEGIN photoman.insert_album(:x); END;";
 	conn.execute(query, [name], callback);
 }
 
@@ -417,14 +417,14 @@ function getLocations(callback)
 
 function movePhotoToAlbum(photoId, albumId, callback)
 {
-	var query = "UPDATE photos SET album_id = :x WHERE id = :y";
+	var query = "BEGIN photoman.move_photo_to_album(:x, :y); END;";
 	albumId = parseInt(albumId);
-	conn.execute(query, [albumId, photoId], callback);
+	conn.execute(query, [photoId, albumId], callback);
 }
 
 function movePhotoToLocation(photoId, locationId, callback)
 {
-	var query = "UPDATE photos SET location_id = :x WHERE id = :y";
+	var query = "BEGIN photoman.move_photo_to_location(:x, :y); END;";
 	conn.execute(query, [locationId, photoId], callback);
 }
 
