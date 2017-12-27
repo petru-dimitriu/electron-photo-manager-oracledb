@@ -182,7 +182,6 @@ function parseRootDirectory(rootDir, addFiles, albumName)
 	if (albumName !== undefined)
 	{	
 		try {
-		console.log(albumName);
 		var that = this;
 		conn.execute("SELECT id FROM albums WHERE title = :title",
 		[albumName],
@@ -384,7 +383,6 @@ function displayAlbums()
 	conn.each(query,function(err,row){
 		contents += "<tr><td><a href='javascript:displayPhotos(" + row['ID'] + ", \"" + row['TITLE'] + "\"" + ")'>" + row['TITLE'] + "</a></td> \
 		<td><a href='javascript:removeAlbumClick(" + row['ID'] + ")'>Remove</a></td></tr>";
-		console.log(contents);
 	}, [], {}, function(err){
 		contents += "<tr><td><input id='newAlbumName'></td><td><a href='javascript:addAlbumClick()'>Add new</a></td></tr>";
 		contents += "</table>";

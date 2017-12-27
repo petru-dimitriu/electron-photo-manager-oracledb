@@ -1,0 +1,63 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="8CC58A51-6D80-9E36-CD4B-3D76F630F79A" name="people">
+<createdBy>student</createdBy>
+<createdTime>2017-10-03 11:32:01 UTC</createdTime>
+<generatorID>B6D174D4-C397-F494-8A7E-8F78C8C2EB2F</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<engineerTo>
+<item key="2C8E0764-DC6E-A5E7-AEF0-13CFE994E923" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="01B83B55-9880-6A3D-5E6A-FBFDF715EB69">
+<createdBy>student</createdBy>
+<createdTime>2017-10-03 11:32:01 UTC</createdTime>
+<generatorID>121FC529-F6F7-1387-C91F-87FA8BDF57AA</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<engineerTo>
+<item key="2C8E0764-DC6E-A5E7-AEF0-13CFE994E923" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="01D6C25E-7841-0D44-713C-A0D5D19E18AC">
+<createdBy>student</createdBy>
+<createdTime>2017-10-03 11:32:01 UTC</createdTime>
+<generatorID>0F265E71-8BF1-8FF4-6ED3-E0CF71FC880A</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<engineerTo>
+<item key="2C8E0764-DC6E-A5E7-AEF0-13CFE994E923" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C38DD40F-391B-4391-B3DD-BA1C866B0EEF" name="people PK">
+<createdBy>student</createdBy>
+<createdTime>2017-10-03 11:32:01 UTC</createdTime>
+<generatorID>78BD09D0-25B8-3D3C-2B71-D0313BDC15CA</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="2C8E0764-DC6E-A5E7-AEF0-13CFE994E923" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>01B83B55-9880-6A3D-5E6A-FBFDF715EB69</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

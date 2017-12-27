@@ -1,0 +1,63 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="000654B2-CD5E-9816-349D-9A44C1583F6E" name="photosExtraData">
+<createdBy>Petru</createdBy>
+<createdTime>2017-12-27 21:06:57 UTC</createdTime>
+<generatorID>F317B565-776F-A863-0695-E8E33D5B7620</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="B5264247-2CB6-9DA0-F25B-F2E0D00D5A0C">
+<createdBy>Petru</createdBy>
+<createdTime>2017-12-27 21:06:57 UTC</createdTime>
+<generatorID>7FA5280D-017F-9610-8D2D-2B0ED75CF40D</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4A837392-4D75-B665-A401-0EA1817EDE1D" referredColumn="E6D2C90C-FF24-5070-BD3E-98D110FDA216"/>
+</associations>
+</Column>
+<Column name="data" id="577262C0-6EAE-FCD0-8940-D9EE4A257E22">
+<createdBy>Petru</createdBy>
+<createdTime>2017-12-27 21:06:57 UTC</createdTime>
+<generatorID>B3D61337-E4D9-5452-2337-EF4BB96798BB</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0A2C7EE2-6E6B-3789-807C-4A0D4D50A9AB" name="photosExtraData_PK">
+<createdBy>Petru</createdBy>
+<createdTime>2017-12-27 21:06:57 UTC</createdTime>
+<generatorID>677F7E4A-6A94-F8B5-CB82-9804CAA6DD20</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B5264247-2CB6-9DA0-F25B-F2E0D00D5A0C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CA6D2753-732D-C589-085C-FD3D3763AFAF" name="photosExtraData_photos_FK">
+<createdBy>Petru</createdBy>
+<createdTime>2017-12-27 21:14:26 UTC</createdTime>
+<generatorID>08A0CA40-1906-6105-0E4E-F265E602CD3F</generatorID>
+<ownerDesignName>lab2</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B5264247-2CB6-9DA0-F25B-F2E0D00D5A0C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
