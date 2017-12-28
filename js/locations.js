@@ -73,7 +73,7 @@ function removeLocationClick(id)
 			}
 			else
 			{
-				notify("Location not removed.");
+				notify("Location not removed." + err);
 			}
 		});
 }

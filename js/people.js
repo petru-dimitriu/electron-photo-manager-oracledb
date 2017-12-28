@@ -35,10 +35,16 @@ function tableInputKeydown(event)
 	{
 		var newPersonName = $('#incrementalSearchVal').val();
 		insertPerson(newPersonName,
-			function()
+			function(err)
 		{
-			loadPeopleIntoContents();
-			notify('Person ' + newPersonName + ' added');
+			if (err == null) {
+				loadPeopleIntoContents();
+				notify('Person ' + newPersonName + ' added');
+			}
+			else {
+				notify('Person ' + newPersonName + ' not added. ' + err);
+				setTimeout(function() { notify(''); }, 5000);
+			}
 		});
 	}
 	else

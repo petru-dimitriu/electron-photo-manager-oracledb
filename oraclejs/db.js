@@ -99,7 +99,6 @@ oracledb.getConnection(
 				bindVariables = [];
 			if (options == undefined || options == null)
 				options = {};
-			console.log(bindVariables);
 			conn.execute(query, bindVariables, options, function (err, result) {
 				for (var i = 0; i < result.rows.length; i ++) {
 					callback(err, result.rows[i]);
@@ -142,7 +141,6 @@ function parseRootDirectoryDialog()
 
 function parsePhotosInAlbum(rootDir,albumId)
 {
-	console.log("album = " + albumId);
 	var filenames = fs.readdirSync(rootDir);
 	var photoStatement = "BEGIN photoman.insert_photo(:x, :p, :e); END;";
 	var photoDetailsArray = [];
@@ -312,8 +310,8 @@ function updatePhotoDescription()
 
 function removePerson(id, callback)
 {
-	var query = "BEGIN photoman.remove_person(" + id + ") END;";
-	conn.execute(query, callback);
+	var query = "BEGIN photoman.remove_person(:x); END;";
+	conn.execute(query,[ id ], callback);
 }
 
 function insertPerson(name, callback)
@@ -330,8 +328,10 @@ function insertLocation(name, lat, longitude, callback)
 
 function removeLocation(id, callback)
 {
-	var query = "BEGIN photoman.remove_location(:x) END;";
+	var query = "BEGIN photoman.remove_location(" + id + "); END;";
+	console.log(id);
 	conn.execute(query, [], callback);
+	console.log('z');
 }
 
 function removeAlbum(id, callback)
