@@ -4,7 +4,7 @@
   "description": "Personal photo organizer based on Electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron main2.js",
+    "start": "electron main.js",
     "postinstall": "install-app-deps"
   },
   "repository": {
