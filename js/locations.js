@@ -54,7 +54,7 @@ function tableInputKeydownLoc(event)
     else
     {
       notify('Location ' + newLocationName + ' NOT added');
-      alert('Some error prevented theperson from being added. Checking the thrown exception might give you a clue as to what went wrong. ' + err);
+      alert('Some error prevented the location from being added. Checking the thrown exception might give you a clue as to what went wrong. ' + err);
     }
         });
     }

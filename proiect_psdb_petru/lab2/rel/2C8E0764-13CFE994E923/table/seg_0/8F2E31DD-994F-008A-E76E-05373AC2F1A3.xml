@@ -47,5 +47,15 @@
 <colUsage columnID="37EA7079-F3B4-0872-5564-A8FDFF137A75"/>
 </indexColumnUsage>
 </ind_PK_UK>
+<ind_PK_UK id="B5A0ED18-D1CF-3141-C52C-2741D278F9FE" name="albums__UN">
+<createdBy>Petru</createdBy>
+<createdTime>2017-12-29 09:26:37 UTC</createdTime>
+<ownerDesignName>lab2</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1C340B60-B3E3-5959-1CC7-E67015E10952"/>
+</indexColumnUsage>
+</ind_PK_UK>
 </indexes>
 </Table>

@@ -17,6 +17,8 @@ CREATE TABLE albums (
 
 ALTER TABLE albums ADD CONSTRAINT albums_pk PRIMARY KEY ( id );
 
+ALTER TABLE albums ADD CONSTRAINT albums__un UNIQUE ( title );
+
 CREATE TABLE locations (
     id          INTEGER NOT NULL,
     name        VARCHAR2(200) NOT NULL,

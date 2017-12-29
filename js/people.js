@@ -43,7 +43,7 @@ function tableInputKeydown(event)
             }
             else {
                 notify('Person ' + newPersonName + ' not added. ');
-                alert('Some error prevented theperson from being added. Checking the thrown exception might give you a clue as to what went wrong. ' + err);
+                alert('Some error prevented the person from being added. Checking the thrown exception might give you a clue as to what went wrong. ' + err);
                 setTimeout(function() { notify(''); }, 5000);
             }
         });
