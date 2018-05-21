@@ -1,5 +1,4 @@
 fs = require('fs');
-sqlite = require('sqlite3');
 oracledb = require('oracledb');
 oracledb.autoCommit = true;
 oracledb.outFormat = oracledb.OBJECT;
@@ -67,7 +66,7 @@ function parseRootDirectoryDialog()
             parseRootDirectory(rootDir[0]);
             root = rootDir[0];
         }
-    )
+    );
 }
 
 function parsePhotosInAlbum(rootDir,albumId)
@@ -101,7 +100,7 @@ function parsePhotosInAlbum(rootDir,albumId)
 
 function parseRootDirectory(rootDir, addFiles, albumName)
 {
-    notify("Parsing " + rootDir + "...");
+    //notify("Parsing " + rootDir + "...");
     // get array of filenames
     var filenames = fs.readdirSync(rootDir);
     var directories = [];
@@ -232,6 +231,28 @@ function updatePhotoDescription()
         })
 }
 
+function updatePhotoDate()
+{
+    var currentPhotoId = currentPhotoList[photoIndex]['ID'];
+    var newDateTaken = $("#photoDateEdit").val();
+    conn.execute("UPDATE photos SET date_taken = TO_DATE(:x, 'DD/MM/YYYY') WHERE id = :y", [newDateTaken, currentPhotoId],
+        function(error) {
+            if (error !== null)
+            {
+				console.log("eRR!");
+                $("#photoDate").css("backgroundColor","red");
+				$("#photoDate").html('Error occured.');
+            }
+            else
+            {
+                $("#photoDate").css("backgroundColor","green");
+                currentPhotoList[photoIndex]['DATE_TAKEN'] = newDateTaken;
+				$("#photoDate").html(newDateTaken);
+            }
+            $("#photoDate").animate({backgroundColor:"black"},500);
+        });
+}
+
 function removePerson(id, callback)
 {
     var query = "BEGIN photoman.remove_person(:x); END;";
@@ -299,6 +320,12 @@ function getLocationName(id, callback)
     conn.all(query, callback, [id] );
 }
 
+function getLocationCoords(id, callback)
+{
+	var query = "SELECT longitude, latitude FROM locations WHERE id = :x";
+	conn.all(query, callback, [id]);
+}
+
 function displayAlbums()
 {
     var query = "SELECT * FROM albums";
@@ -345,7 +372,8 @@ function movePhotoToAlbum(photoId, albumId, callback)
 
 function movePhotoToLocation(photoId, locationId, callback)
 {
-    var query = "BEGIN photoman.move_photo_to_location(:x, :y); END;";
+	console.log("moving " + photoId + " to " + locationId);
+    var query = "BEGIN update PHOTOS set location_id=:x where id=:y; COMMIT; END;";
     conn.execute(query, [locationId, photoId], callback);
 }
 

@@ -50,7 +50,7 @@ function SearchArguments(filename, rating, album, people, locations)
 
 function getSqlFromSerachArgs(searchArgs)
 {
-  var query = "SELECT * FROM photos WHERE ";
+  var query = "SELECT id, path, description, album_id, rating, location_id, to_char(date_taken,'DD/MM/YYYY') date_taken FROM  photos WHERE ";
   var and = false;
   if (searchArgs.filename != '')
   {

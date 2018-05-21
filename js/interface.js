@@ -25,6 +25,36 @@ function prepareUI()
             $(this).focusout();
     }
     );
+	
+		
+	/////////////////
+
+	
+	$("#photoDate").click( function()
+        {
+            $(this).hide();
+            $("#photoDateEdit").show();
+            $("#photoDateEdit").focus();
+        }
+    );
+
+    $("#photoDateEdit").focusout( function()
+    {
+        $(this).hide();
+        $("#photoDate").show();
+        if ($("#photoDateEdit").val() != "")
+        {
+            $("#photoDate").html($("#photoDate").val());
+            updatePhotoDate();
+        }
+    });	
+
+    $("#photoDateEdit").keypress(function(e)
+    {
+        if (e.which == 13)
+            $(this).focusout();
+    }
+    );
 
     $("#closeModal").click(hideModal);
     $("#peopleInThisPhoto").click(displayPeopleInPhotoModal);
@@ -132,7 +162,7 @@ function changeAlbumClick()
 
 function changeLocationClick()
 {
-    movePhotoToLocation(currentPhotoList[currentPhotoIndex]['ID'], $("#locationSelect").val(),
+    movePhotoToLocation(currentPhotoList[photoIndex]['ID'], $("#locationSelect").val(),
     function(err)
 {
     var initialBgColour = $("#locationSelect").css('backgroundColor');
@@ -143,7 +173,7 @@ function changeLocationClick()
     else
     {
         $("#locationSelect").css('backgroundColor','green');
-        currentPhotoList[currentPhotoIndex]['LOCATION_ID'] = $("#locationSelect").val();
+        currentPhotoList[photoIndex]['LOCATION_ID'] = $("#locationSelect").val();
         updatePhotoDisplay();
     }
     $("#locationSelect").animate({backgroundColor:initialBgColour},500);
@@ -213,7 +243,7 @@ function setTitle(text)
 
 function turnOffMode(mode)
 {
-    if (mode == 'album')
+    if (mode == 'album' || mode == 'stats')
     {
         $("#mainViewer").hide();
         $("#commands").hide();
@@ -234,6 +264,9 @@ function turnOffMode(mode)
 
 function turnOnMode(mode)
 {
+	$("#map").css('display','none');
+	$("#mapscript").html('');
+	
     currentMode = mode;
     if (mode == 'album')
     {
@@ -260,6 +293,13 @@ function turnOnMode(mode)
         $("#commands").show();
         $("#conts").show();
         setTitle("People");
+    }
+	else if (mode == 'stats')
+    {
+        $("#mainViewer").show();
+        $("#commands").show();
+        $("#conts").show();
+        setTitle("Yearly location stats");
     }
     else if (mode == 'Location')
     {

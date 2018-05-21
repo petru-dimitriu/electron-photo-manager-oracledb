@@ -14,6 +14,14 @@ html
 
 }
 
+#map
+{
+	height: 50vh;
+	position: fixed;
+	bottom: 5px;
+	z-index: 150;
+}
+
 h1
 {
   background-color: black;
