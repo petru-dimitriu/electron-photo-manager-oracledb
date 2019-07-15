@@ -19,15 +19,15 @@
   "author": "Petru Dimitriu",
   "license": "Public Domain",
   "devDependencies": {
-    "electron-builder": "^17.0.1",
-    "electron-prebuilt": "^0.35.0"
+    "electron-builder": "^21.0.15",
+    "electron-prebuilt": "^1.4.13"
   },
   "dependencies": {
-    "electron-reload": "^1.1.0",
-    "jquery": "~2.2.0",
-    "jquery-ui": "~1.10.5",
-    "oracledb": "^1.13.1",
-    "simple-oracledb": "^1.1.88",
-    "sqlite3": "^3.1.8"
+    "electron-reload": "^1.4.0",
+    "jquery": "~3.4.1",
+    "jquery-ui": "~1.12.1",
+    "oracledb": "^3.1.2",
+    "simple-oracledb": "^1.4.2",
+    "sqlite3": "^4.0.9"
   }
 }
